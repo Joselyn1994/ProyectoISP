@@ -1,0 +1,26 @@
+# Entorno virtual de Python
+.venv/
+venv/
+env/
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+
+# Base de datos local
+db.sqlite3
+
+# Archivos con contraseñas y configuraciones privadas
+.env
+.env.*
+!.env.example
+
+# Archivos generados por Django
+staticfiles/
+
+# Archivos de registro
+*.log
+
+# Configuración del sistema operativo
+.DS_Store
+Thumbs.db
