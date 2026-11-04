@@ -1,0 +1,210 @@
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Gestión de clientes | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}Gestión de clientes{% endblock %}
+
+{% block content %}
+
+<!-- Encabezado de la página -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <div>
+        <h4 class="fw-bold mb-1">Clientes registrados</h4>
+        <p class="text-secondary mb-0">
+            Consulta y administra los clientes de Teleguepi ISP.
+        </p>
+    </div>
+
+    <!-- Botón para registrar un nuevo cliente -->
+    <a href="{% url 'clientes:registrar_cliente' %}" class="btn btn-primary">
+        <i class="bi bi-person-plus"></i>
+        Nuevo cliente
+    </a>
+
+</div>
+
+<!-- Tarjeta con el total de clientes -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div>
+                        <p class="text-secondary mb-1">Total de resultados</p>
+                        <h3 class="fw-bold mb-0">{{ total_clientes }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Buscador de clientes -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+
+        <form method="GET" class="row g-2">
+
+            <div class="col-md-9">
+                <input
+                    type="text"
+                    name="buscar"
+                    class="form-control"
+                    placeholder="Buscar por cédula, nombres o apellidos..."
+                    value="{{ busqueda }}"
+                >
+            </div>
+
+            <div class="col-md-3 d-flex gap-2">
+
+                <button type="submit" class="btn btn-primary flex-fill">
+                    <i class="bi bi-search"></i>
+                    Buscar
+                </button>
+
+                <a href="{% url 'clientes:listar_clientes' %}"
+                   class="btn btn-outline-secondary">
+                    Limpiar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- Tabla de clientes -->
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">Listado de clientes</h5>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Cédula</th>
+                        <th>Cliente</th>
+                        <th>Teléfono</th>
+                        <th>Provincia</th>
+                        <th>Cantón</th>
+                        <th>Parroquia</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for cliente in pagina %}
+
+                    <tr>
+
+                        <td>{{ cliente.cedula }}</td>
+
+                        <td>
+                            {{ cliente.nombres }} {{ cliente.apellidos }}
+                        </td>
+
+                        <td>{{ cliente.telefono }}</td>
+
+                        <td>
+                            {% if cliente.provincia_geo %}
+                                {{ cliente.provincia_geo.nombre }}
+                            {% else %}
+                                {{ cliente.provincia }}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if cliente.canton_geo %}
+                                {{ cliente.canton_geo.nombre }}
+                            {% else %}
+                                {{ cliente.canton }}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if cliente.parroquia %}
+                                {{ cliente.parroquia.nombre }}
+                            {% else %}
+                                No registrado
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if cliente.estado == 'activo' %}
+                                <span class="badge bg-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactivo</span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="7" class="text-center text-secondary py-4">
+                            No existen clientes registrados.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Navegación entre páginas -->
+        {% if pagina.has_other_pages %}
+
+        <nav aria-label="Paginación de clientes">
+
+            <ul class="pagination justify-content-center mt-4">
+
+                {% if pagina.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?buscar={{ busqueda|urlencode }}&page={{ pagina.previous_page_number }}">
+                            Anterior
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if pagina.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?buscar={{ busqueda|urlencode }}&page={{ pagina.next_page_number }}">
+                            Siguiente
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
