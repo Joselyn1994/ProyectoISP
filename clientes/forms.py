@@ -2,6 +2,9 @@
 # Importamos forms para trabajar con formularios de Django.
 from django import forms
 
+# Importamos ValidationError para mostrar mensajes personalizados.
+from django.core.exceptions import ValidationError
+
 # Importamos los modelos necesarios para el formulario.
 from .models import Cliente, Provincia, Canton, Parroquia
 
@@ -180,6 +183,28 @@ class ClienteForm(forms.ModelForm):
         # Devolvemos los datos validados.
         return datos
 
+    # Validamos que la cédula no esté registrada anteriormente.
+    def clean_cedula(self):
+
+        # Recuperamos la cédula ingresada.
+        cedula = self.cleaned_data.get('cedula')
+
+        # Buscamos si existe otro cliente con la misma cédula.
+        cliente_existente = Cliente.objects.filter(
+            cedula=cedula
+        ).exclude(
+            pk=self.instance.pk
+        ).exists()
+
+        # Si existe, mostramos un mensaje en español.
+        if cliente_existente:
+            raise ValidationError(
+                'Esta cédula ya se encuentra registrada.'
+            )
+
+        # Devolvemos la cédula validada.
+        return cedula
+
     # Guardamos también los nombres en los campos antiguos del modelo.
     def save(self, commit=True):
 
@@ -208,3 +233,4 @@ class ClienteForm(forms.ModelForm):
 
         # Devolvemos el cliente.
         return cliente
+

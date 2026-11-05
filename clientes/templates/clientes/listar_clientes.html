@@ -99,6 +99,7 @@
                         <th>Cantón</th>
                         <th>Parroquia</th>
                         <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
 
@@ -140,6 +141,7 @@
                             {% endif %}
                         </td>
 
+                        <!-- Estado actual del cliente -->
                         <td>
                             {% if cliente.estado == 'activo' %}
                                 <span class="badge bg-success">Activo</span>
@@ -148,12 +150,65 @@
                             {% endif %}
                         </td>
 
+                        <!-- Acciones disponibles para cada cliente -->
+                        <td>
+                            <div class="d-flex gap-2 flex-wrap">
+
+                                <!-- Botón para editar -->
+                                <a
+                                    href="{% url 'clientes:editar_cliente' cliente.id %}"
+                                    class="btn btn-sm btn-outline-primary"
+                                    title="Editar cliente"
+                                >
+                                    <i class="bi bi-pencil-square"></i>
+                                    Editar
+                                </a>
+
+                                <!-- Formulario para cambiar el estado -->
+                                <form
+                                    method="POST"
+                                    action="{% url 'clientes:cambiar_estado_cliente' cliente.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    {% if cliente.estado == 'activo' %}
+
+                                        <!-- Desactivar cliente -->
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('¿Está seguro de desactivar este cliente?');"
+                                        >
+                                            <i class="bi bi-person-x"></i>
+                                            Desactivar
+                                        </button>
+
+                                    {% else %}
+
+                                        <!-- Activar cliente -->
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-success"
+                                            onclick="return confirm('¿Desea activar este cliente?');"
+                                        >
+                                            <i class="bi bi-person-check"></i>
+                                            Activar
+                                        </button>
+
+                                    {% endif %}
+
+                                </form>
+
+                            </div>
+                        </td>
+
                     </tr>
 
                     {% empty %}
 
                     <tr>
-                        <td colspan="7" class="text-center text-secondary py-4">
+                        <td colspan="8" class="text-center text-secondary py-4">
                             No existen clientes registrados.
                         </td>
                     </tr>

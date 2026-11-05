@@ -4,7 +4,7 @@
 # --------------------------------------------------
 
 # Importamos herramientas de Django para mostrar páginas y redirigir.
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Importamos Q para realizar búsquedas en varios campos.
 from django.db.models import Q
@@ -192,3 +192,92 @@ def cargar_parroquias(request):
 
     # Enviamos las parroquias en formato JSON.
     return JsonResponse({'parroquias': datos})
+
+# --------------------------------------------------
+# EDITAR CLIENTES
+# --------------------------------------------------
+
+# Vista para modificar la información de un cliente.
+def editar_cliente(request, cliente_id):
+
+    # Buscamos el cliente por su ID.
+    # Si no existe, Django mostrará un error 404.
+    cliente = get_object_or_404(Cliente, id=cliente_id)
+
+    # Comprobamos si el usuario envió el formulario.
+    if request.method == "POST":
+
+        # Cargamos los datos enviados y los relacionamos
+        # con el cliente que estamos editando.
+        formulario = ClienteForm(request.POST, instance=cliente)
+
+        # Validamos los datos.
+        if formulario.is_valid():
+
+            # Guardamos los cambios en PostgreSQL.
+            formulario.save()
+
+            # Mostramos un mensaje de confirmación.
+            messages.success(
+                request,
+                "Los datos del cliente se actualizaron correctamente."
+            )
+
+            # Regresamos al listado de clientes.
+            return redirect('clientes:listar_clientes')
+
+        # Si existen errores, mostramos una notificación.
+        messages.error(
+            request,
+            "No se pudieron actualizar los datos. Revise los campos."
+        )
+
+    else:
+
+        # Mostramos el formulario con los datos actuales del cliente.
+        formulario = ClienteForm(instance=cliente)
+
+    # Utilizamos la misma plantilla del registro.
+    return render(
+        request,
+        "clientes/registrar_cliente.html",
+        {
+            "formulario": formulario,
+            "titulo": "Editar información del cliente",
+            "cliente": cliente,
+        }
+    )
+
+
+# --------------------------------------------------
+# ACTIVAR Y DESACTIVAR CLIENTES
+# --------------------------------------------------
+
+# Vista para cambiar el estado de un cliente.
+def cambiar_estado_cliente(request, cliente_id):
+
+    # Solo permitimos cambiar el estado mediante POST.
+    if request.method == 'POST':
+
+        # Buscamos el cliente por su identificador.
+        cliente = get_object_or_404(Cliente, id=cliente_id)
+
+        # Si está activo, lo cambiamos a inactivo.
+        if cliente.estado == 'activo':
+            cliente.estado = 'inactivo'
+            mensaje = 'El cliente fue desactivado correctamente.'
+
+        # Si está inactivo, lo cambiamos a activo.
+        else:
+            cliente.estado = 'activo'
+            mensaje = 'El cliente fue activado correctamente.'
+
+        # Guardamos únicamente el cambio de estado.
+        cliente.save(update_fields=['estado'])
+
+        # Mostramos un mensaje de confirmación.
+        messages.success(request, mensaje)
+
+    # Regresamos al listado de clientes.
+    return redirect('clientes:listar_clientes')
+

@@ -2,15 +2,17 @@
 {% extends "clientes/base.html" %}
 {% load static %}
 
-{% block title %}Registrar cliente | Teleguepi ISP{% endblock %}
+{% block title %}{{ titulo|default:"Registrar cliente" }} | Teleguepi ISP{% endblock %}
 
-{% block page_heading %}Registro de clientes{% endblock %}
+{% block page_heading %}{{ titulo|default:"Registro de clientes" }}{% endblock %}
 
 {% block content %}
 
 <!-- Encabezado del formulario -->
 <div class="mb-4">
-    <h4 class="fw-bold">Registrar nuevo cliente</h4>
+    <h4 class="fw-bold">
+        {{ titulo|default:"Registrar nuevo cliente" }}
+    </h4>
 
     <p class="text-secondary">
         Complete la información personal y la ubicación del cliente.
@@ -21,7 +23,7 @@
 <div class="card border-0 shadow-sm">
     <div class="card-body p-4">
 
-        <!-- Formulario de registro y conexión con las direcciones de Django -->
+        <!-- Formulario de registro y edición -->
         <form
             method="POST"
             id="formulario-cliente"
@@ -29,10 +31,9 @@
             data-url-parroquias="{% url 'clientes:cargar_parroquias' %}"
         >
 
-            <!-- Protección de seguridad de Django -->
             {% csrf_token %}
 
-            <!-- Errores generales del formulario -->
+            <!-- Errores generales -->
             {% if formulario.non_field_errors %}
                 <div class="alert alert-danger">
                     {{ formulario.non_field_errors }}
@@ -46,7 +47,6 @@
 
                     <div class="col-md-6">
 
-                        <!-- Etiqueta del campo -->
                         <label
                             for="{{ campo.id_for_label }}"
                             class="form-label fw-semibold"
@@ -54,17 +54,15 @@
                             {{ campo.label }}
                         </label>
 
-                        <!-- Campo de entrada -->
                         {{ campo }}
 
-                        <!-- Mensajes de error del campo -->
+                        <!-- Errores de cada campo -->
                         {% for error in campo.errors %}
                             <div class="text-danger small mt-1">
                                 {{ error }}
                             </div>
                         {% endfor %}
 
-                        <!-- Texto de ayuda -->
                         {% if campo.help_text %}
                             <div class="form-text">
                                 {{ campo.help_text }}
@@ -80,7 +78,7 @@
             <!-- Botones de acción -->
             <div class="d-flex gap-2 justify-content-end mt-4">
 
-                <!-- Botón para regresar al listado -->
+                <!-- Regresar al listado -->
                 <a
                     href="{% url 'clientes:listar_clientes' %}"
                     class="btn btn-outline-secondary"
@@ -89,10 +87,17 @@
                     Volver
                 </a>
 
-                <!-- Botón para registrar el cliente -->
+                <!-- Botón dinámico para guardar -->
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-person-plus"></i>
-                    Registrar cliente
+
+                    {% if cliente %}
+                        <i class="bi bi-pencil-square"></i>
+                        Guardar cambios
+                    {% else %}
+                        <i class="bi bi-person-plus"></i>
+                        Guardar cliente
+                    {% endif %}
+
                 </button>
 
             </div>
@@ -104,10 +109,6 @@
 
 {% endblock %}
 
-
-<!-- Conectamos el archivo JavaScript de ubicaciones -->
 {% block extra_js %}
-
 <script src="{% static 'clientes/js/ubicaciones.js' %}"></script>
-
 {% endblock %}
