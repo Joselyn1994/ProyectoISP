@@ -4,174 +4,191 @@
 <html lang="es">
 
 <head>
-    <!-- Configuración de caracteres y adaptación a dispositivos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Título dinámico de cada página -->
     <title>{% block title %}Teleguepi ISP{% endblock %}</title>
 
-    <!-- Bootstrap 5: estilos y componentes -->
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Iconos de Bootstrap -->
+    <!-- Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
           rel="stylesheet">
 
-    <!-- Nuestro archivo CSS personalizado -->
+    <!-- Estilos propios -->
     <link rel="stylesheet" href="{% static 'clientes/css/estilos.css' %}">
 
-    <!-- Espacio para estilos adicionales de cada página -->
     {% block extra_css %}{% endblock %}
 </head>
 
 <body>
 
-    <!-- Contenedor general de toda la aplicación -->
-    <div class="app-container">
+<div class="app-container">
 
-        <!-- Menú lateral de navegación -->
-        <aside class="sidebar">
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
 
-            <!-- Identidad del sistema -->
-            <div class="brand">
-                <div class="brand-icon">
-                    <i class="bi bi-wifi"></i>
-                </div>
+        <!-- LOGOTIPO -->
+        <div class="brand">
 
-                <div>
-                    <h4>TELEGUEPI</h4>
-                    <span>ISP MANAGEMENT</span>
-                </div>
+            <div class="brand-icon">
+                <i class="bi bi-wifi"></i>
             </div>
 
-            <!-- Opciones del menú -->
-            <nav class="sidebar-menu">
-
-                <p class="menu-heading">GENERAL</p>
-
-                <a href="{% url 'clientes:listar_clientes' %}"
-                   class="menu-link">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Panel principal</span>
-                </a>
-
-                <p class="menu-heading">GESTIÓN</p>
-
-                <a href="{% url 'clientes:listar_clientes' %}"
-                   class="menu-link active">
-                    <i class="bi bi-people"></i>
-                    <span>Clientes</span>
-                </a>
-
-                <div class="menu-link disabled">
-                    <i class="bi bi-wifi"></i>
-                    <span>Planes de Internet</span>
-                    <small>Próximamente</small>
-                </div>
-
-                <div class="menu-link disabled">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>Contratos</span>
-                    <small>Próximamente</small>
-                </div>
-
-                <div class="menu-link disabled">
-                    <i class="bi bi-wallet2"></i>
-                    <span>Pagos</span>
-                    <small>Próximamente</small>
-                </div>
-
-                <p class="menu-heading">ADMINISTRACIÓN</p>
-
-                <div class="menu-link disabled">
-                    <i class="bi bi-graph-up"></i>
-                    <span>Finanzas</span>
-                    <small>Próximamente</small>
-                </div>
-
-                <div class="menu-link disabled">
-                    <i class="bi bi-file-bar-graph"></i>
-                    <span>Reportes</span>
-                    <small>Próximamente</small>
-                </div>
-
-            </nav>
-
-            <!-- Información inferior del sistema -->
-            <div class="sidebar-footer">
-                <i class="bi bi-shield-check"></i>
-                <span>Sistema de gestión ISP</span>
+            <div>
+                <h4>TELEGUEPI</h4>
+                <span>ISP MANAGEMENT</span>
             </div>
 
-        </aside>
+        </div>
 
-        <!-- Área principal del contenido -->
-        <main class="main-content">
+        <!-- NAVEGACIÓN -->
+        <nav class="sidebar-menu">
 
-            <!-- Encabezado superior -->
-            <header class="topbar">
+            <p class="menu-heading">GENERAL</p>
 
-                <div>
-                    <span class="topbar-subtitle">TELEGUEPI ISP</span>
-                    <h5>{% block page_heading %}Sistema de gestión{% endblock %}</h5>
+            <!-- Panel principal: provisional hasta crear el dashboard -->
+            <a href="{% url 'clientes:listar_clientes' %}"
+               class="menu-link">
+                <i class="bi bi-speedometer2"></i>
+                <span>Panel principal</span>
+            </a>
+
+            <p class="menu-heading">GESTIÓN</p>
+
+            <!-- MÓDULO CLIENTES -->
+            <a href="{% url 'clientes:listar_clientes' %}"
+               class="menu-link {% if request.resolver_match.namespace == 'clientes' %}active{% endif %}">
+
+                <i class="bi bi-people"></i>
+                <span>Clientes</span>
+
+            </a>
+
+            <!-- MÓDULO PLANES -->
+            <a href="{% url 'planes:listar_planes' %}"
+               class="menu-link {% if request.resolver_match.namespace == 'planes' %}active{% endif %}">
+
+                <i class="bi bi-wifi"></i>
+                <span>Planes de Internet</span>
+
+            </a>
+
+            <!-- MÓDULO CONTRATOS -->
+            <a href="{% url 'contratos:listar_contratos' %}"
+               class="menu-link {% if request.resolver_match.namespace == 'contratos' %}active{% endif %}">
+
+                <i class="bi bi-file-earmark-text"></i>
+                <span>Contratos</span>
+
+            </a>
+
+            <!-- MÓDULO PAGOS: PENDIENTE -->
+            <div class="menu-link disabled">
+                <i class="bi bi-wallet2"></i>
+                <span>Pagos</span>
+                <small>Próximamente</small>
+            </div>
+
+            <p class="menu-heading">ADMINISTRACIÓN</p>
+
+            <!-- MÓDULO FINANZAS: PENDIENTE -->
+            <div class="menu-link disabled">
+                <i class="bi bi-graph-up"></i>
+                <span>Finanzas</span>
+                <small>Próximamente</small>
+            </div>
+
+            <!-- MÓDULO REPORTES: PENDIENTE -->
+            <div class="menu-link disabled">
+                <i class="bi bi-file-bar-graph"></i>
+                <span>Reportes</span>
+                <small>Próximamente</small>
+            </div>
+
+        </nav>
+
+        <!-- PIE DEL MENÚ -->
+        <div class="sidebar-footer">
+            <i class="bi bi-shield-check"></i>
+            <span>Sistema de gestión ISP</span>
+        </div>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+
+        <!-- BARRA SUPERIOR -->
+        <header class="topbar">
+
+            <div>
+                <span class="topbar-subtitle">TELEGUEPI ISP</span>
+
+                <h5>
+                    {% block page_heading %}Sistema de gestión{% endblock %}
+                </h5>
+            </div>
+
+            <div class="topbar-user">
+
+                <div class="user-avatar">
+                    <i class="bi bi-person"></i>
                 </div>
 
-                <div class="topbar-user">
-                    <div class="user-avatar">
-                        <i class="bi bi-person"></i>
-                    </div>
-
-                    <div class="user-info">
-                        <strong>Administrador</strong>
-                        <span>Gestión del sistema</span>
-                    </div>
+                <div class="user-info">
+                    <strong>Administrador</strong>
+                    <span>Gestión del sistema</span>
                 </div>
 
-            </header>
+            </div>
 
-            <!-- Contenido particular de cada página -->
-            <section class="page-content">
+        </header>
 
-                <!-- Mensajes de confirmación y error -->
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
-                             role="alert">
+        <!-- CONTENIDO DE CADA MÓDULO -->
+        <section class="page-content">
 
-                            {{ message }}
+            <!-- MENSAJES DEL SISTEMA -->
+            {% if messages %}
+                {% for message in messages %}
 
-                            <button type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="alert"
-                                    aria-label="Cerrar">
-                            </button>
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                         role="alert">
 
-                        </div>
-                    {% endfor %}
-                {% endif %}
+                        {{ message }}
 
-                <!-- Aquí aparecerá el contenido de cada módulo -->
-                {% block content %}
-                {% endblock %}
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert"
+                                aria-label="Cerrar">
+                        </button>
 
-            </section>
+                    </div>
 
-            <!-- Pie de página -->
-            <footer class="page-footer">
-                Teleguepi ISP © 2026 | Sistema de gestión de Internet
-            </footer>
+                {% endfor %}
+            {% endif %}
 
-        </main>
+            {% block content %}
+            {% endblock %}
 
-    </div>
+        </section>
 
-    <!-- JavaScript de Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- PIE DE PÁGINA -->
+        <footer class="page-footer">
+            Teleguepi ISP © 2026 | Sistema de gestión de Internet
+        </footer>
 
-    <!-- Espacio para JavaScript de cada página -->
-    {% block extra_js %}{% endblock %}
+    </main>
+
+</div>
+
+<!-- JAVASCRIPT DE BOOTSTRAP -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block extra_js %}{% endblock %}
 
 </body>
 </html>
+

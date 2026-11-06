@@ -1,0 +1,134 @@
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Planes de Internet | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}Gestión de planes de Internet{% endblock %}
+
+{% block content %}
+
+<!-- Encabezado y botón para registrar un nuevo plan -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <div>
+        <h4 class="fw-bold mb-1">Planes de Internet</h4>
+        <p class="text-muted mb-0">
+            Administra las velocidades y tarifas de tus servicios.
+        </p>
+    </div>
+
+    <a href="{% url 'planes:registrar_plan' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-2"></i>
+        Nuevo plan
+    </a>
+
+</div>
+
+<!-- Tabla de planes -->
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Plan</th>
+                        <th>Velocidad</th>
+                        <th>Precio mensual</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for plan in planes %}
+
+                        <tr>
+                            <td class="fw-semibold">
+                                {{ plan.nombre }}
+                            </td>
+
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ plan.velocidad }} Mbps
+                                </span>
+                            </td>
+
+                            <td class="fw-bold text-success">
+                                ${{ plan.precio_mensual }}
+                            </td>
+
+                            <td>
+                                {{ plan.descripcion|default:"Sin descripción" }}
+                            </td>
+
+                            <td>
+                                {% if plan.estado == 'activo' %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactivo</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+
+                                <a href="{% url 'planes:editar_plan' plan.id %}"
+                                   class="btn btn-sm btn-outline-primary"
+                                   title="Editar plan">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <form method="POST"
+                                      action="{% url 'planes:cambiar_estado_plan' plan.id %}"
+                                      class="d-inline"
+                                      onsubmit="return confirm('¿Deseas cambiar el estado de este plan?');">
+
+                                    {% csrf_token %}
+
+                                    {% if plan.estado == 'activo' %}
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Desactivar plan">
+                                            <i class="bi bi-toggle-on"></i>
+                                        </button>
+                                    {% else %}
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-success"
+                                                title="Activar plan">
+                                            <i class="bi bi-toggle-off"></i>
+                                        </button>
+                                    {% endif %}
+
+                                </form>
+
+                            </td>
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <i class="bi bi-wifi fs-1 text-muted"></i>
+                                <p class="text-muted mt-2 mb-0">
+                                    Todavía no hay planes registrados.
+                                </p>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,359 @@
+
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Contratos | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}{{ titulo }}{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white py-3">
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-file-earmark-text me-2 text-primary"></i>
+                    Información del contrato
+                </h5>
+            </div>
+
+            <div class="card-body p-4">
+
+                <form method="POST" id="formularioContrato">
+
+                    {% csrf_token %}
+
+                    {% if formulario.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ formulario.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <!-- CÓDIGO DEL CONTRATO -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Código del contrato
+                        </label>
+
+                        {{ formulario.codigo }}
+
+                        {% for error in formulario.codigo.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- BÚSQUEDA DEL CLIENTE POR CÉDULA -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Buscar cliente por número de cédula
+                        </label>
+
+                        <div class="input-group">
+
+                            <input type="text"
+                                   id="cedulaCliente"
+                                   class="form-control"
+                                   maxlength="10"
+                                   placeholder="Ingrese los 10 dígitos de la cédula">
+
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    id="btnBuscarCliente">
+                                <i class="bi bi-search me-1"></i>
+                                Buscar
+                            </button>
+
+                        </div>
+
+                        <small class="text-muted">
+                            Ingrese la cédula del cliente previamente registrado.
+                        </small>
+
+                    </div>
+
+                    <!-- RESULTADO DE LA BÚSQUEDA -->
+                    <div id="resultadoCliente" class="mb-3" style="display: none;">
+                    </div>
+
+                    <!-- SELECTOR REAL QUE ENVÍA EL ID DEL CLIENTE A DJANGO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Cliente seleccionado
+                        </label>
+
+                        <div class="d-none">
+                            {{ formulario.cliente }}
+                        </div>
+
+                        {% for error in formulario.cliente.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- PLAN DE INTERNET -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Plan de Internet
+                        </label>
+
+                        {{ formulario.plan }}
+
+                        {% for error in formulario.plan.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- FECHAS -->
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">
+                                Fecha de inicio
+                            </label>
+
+                            {{ formulario.fecha_inicio }}
+
+                            {% for error in formulario.fecha_inicio.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">
+                                Fecha de finalización
+                            </label>
+
+                            {{ formulario.fecha_fin }}
+
+                            {% for error in formulario.fecha_fin.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <!-- ESTADO -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-semibold">
+                            Estado del contrato
+                        </label>
+
+                        {{ formulario.estado }}
+
+                        {% for error in formulario.estado.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Observaciones
+                        </label>
+
+                        {{ formulario.observaciones }}
+
+                        {% for error in formulario.observaciones.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
+
+                        <a href="{% url 'contratos:listar_contratos' %}"
+                           class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Regresar
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-2"></i>
+
+                            {% if contrato %}
+                                Guardar cambios
+                            {% else %}
+                                Registrar contrato
+                            {% endif %}
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+// Obtenemos los elementos del formulario.
+const campoCedula = document.getElementById('cedulaCliente');
+const botonBuscar = document.getElementById('btnBuscarCliente');
+const resultado = document.getElementById('resultadoCliente');
+
+// Obtenemos el selector de clientes creado por Django.
+const selectorCliente = document.getElementById('id_cliente');
+
+
+// Función para buscar al cliente.
+async function buscarCliente() {
+
+    const cedula = campoCedula.value.trim();
+
+    // Validamos que se ingresen los 10 dígitos.
+    if (!/^\d{10}$/.test(cedula)) {
+
+        resultado.style.display = 'block';
+
+        resultado.innerHTML = `
+            <div class="alert alert-warning mb-0">
+                Ingrese una cédula válida de 10 dígitos.
+            </div>
+        `;
+
+        selectorCliente.value = '';
+
+        return;
+    }
+
+    // Mostramos un mensaje mientras buscamos.
+    resultado.style.display = 'block';
+
+    resultado.innerHTML = `
+        <div class="alert alert-info mb-0">
+            Buscando cliente...
+        </div>
+    `;
+
+    try {
+
+        // Consultamos la dirección de búsqueda de Django.
+        const respuesta = await fetch(
+            "{% url 'contratos:buscar_cliente' %}?cedula=" +
+            encodeURIComponent(cedula)
+        );
+
+        const datos = await respuesta.json();
+
+        // Si no encontramos al cliente.
+        if (!datos.encontrado) {
+
+            resultado.innerHTML = `
+                <div class="alert alert-warning mb-0">
+                    <i class="bi bi-exclamation-circle me-2"></i>
+                    ${datos.mensaje}
+                    <br>
+                    <small>Verifique la cédula o registre primero al cliente.</small>
+                </div>
+            `;
+
+            selectorCliente.value = '';
+
+            return;
+        }
+
+        // Seleccionamos automáticamente al cliente encontrado.
+        selectorCliente.value = datos.id;
+
+        // Mostramos sus datos en pantalla.
+        resultado.innerHTML = `
+            <div class="card border-success">
+                <div class="card-body">
+
+                    <h6 class="text-success fw-bold">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Cliente encontrado
+                    </h6>
+
+                    <p class="mb-1">
+                        <strong>Cédula:</strong> ${datos.cedula}
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Nombres:</strong>
+                        ${datos.nombres} ${datos.apellidos}
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Teléfono:</strong> ${datos.telefono}
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Correo:</strong> ${datos.correo || 'No registrado'}
+                    </p>
+
+                    <p class="mb-0">
+                        <strong>Dirección:</strong> ${datos.direccion}
+                    </p>
+
+                </div>
+            </div>
+        `;
+
+    } catch (error) {
+
+        resultado.innerHTML = `
+            <div class="alert alert-danger mb-0">
+                Ocurrió un error al buscar el cliente.
+                Intente nuevamente.
+            </div>
+        `;
+
+        selectorCliente.value = '';
+
+    }
+
+}
+
+
+// Ejecutamos la búsqueda al presionar el botón.
+botonBuscar.addEventListener('click', buscarCliente);
+
+
+// También permitimos buscar al presionar Enter.
+campoCedula.addEventListener('keydown', function(event) {
+
+    if (event.key === 'Enter') {
+
+        event.preventDefault();
+
+        buscarCliente();
+
+    }
+
+});
+
+
+// Si el usuario cambia la cédula, quitamos la selección anterior.
+campoCedula.addEventListener('input', function() {
+
+    selectorCliente.value = '';
+
+    resultado.style.display = 'none';
+
+});
+
+</script>
+
+{% endblock %}
+

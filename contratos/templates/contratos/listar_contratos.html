@@ -1,0 +1,166 @@
+
+
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Contratos | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}Gestión de contratos{% endblock %}
+
+{% block content %}
+
+<!-- Encabezado -->
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+    <div>
+        <h4 class="fw-bold mb-1">Contratos de Internet</h4>
+        <p class="text-muted mb-0">
+            Administra los servicios contratados por tus clientes.
+        </p>
+    </div>
+
+    <a href="{% url 'contratos:registrar_contrato' %}"
+       class="btn btn-primary">
+        <i class="bi bi-plus-circle me-2"></i>
+        Nuevo contrato
+    </a>
+
+</div>
+
+<!-- Tabla de contratos -->
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Código</th>
+                        <th>Cliente</th>
+                        <th>Plan</th>
+                        <th>Inicio</th>
+                        <th>Finalización</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for contrato in contratos %}
+
+                    <tr>
+
+                        <td class="fw-semibold">
+                            {{ contrato.codigo }}
+                        </td>
+
+                        <td>
+                            {{ contrato.cliente.nombres }}
+                            {{ contrato.cliente.apellidos }}
+                        </td>
+
+                        <td>
+                            {{ contrato.plan.nombre }}
+                            <br>
+                            <small class="text-muted">
+                                {{ contrato.plan.velocidad }} Mbps
+                            </small>
+                        </td>
+
+                        <td>
+                            {{ contrato.fecha_inicio|date:"d/m/Y" }}
+                        </td>
+
+                        <td>
+                            {% if contrato.fecha_fin %}
+                                {{ contrato.fecha_fin|date:"d/m/Y" }}
+                            {% else %}
+                                <span class="text-muted">Indefinida</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if contrato.estado == 'activo' %}
+                                <span class="badge bg-success">Activo</span>
+                            {% elif contrato.estado == 'suspendido' %}
+                                <span class="badge bg-warning text-dark">Suspendido</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Finalizado</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+
+                            <!-- Editar contrato -->
+                            <a href="{% url 'contratos:editar_contrato' contrato.id %}"
+                               class="btn btn-sm btn-outline-primary"
+                               title="Editar contrato">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+
+                            <!-- Descargar contrato en PDF -->
+                            <a href="{% url 'contratos:generar_pdf_contrato' contrato_id=contrato.id %}"
+                               class="btn btn-sm btn-outline-danger"
+                               title="Descargar contrato en PDF">
+                                <i class="bi bi-file-pdf"></i>
+                            </a>
+
+                            <!-- Cambiar estado del contrato -->
+                            {% if contrato.estado != 'finalizado' %}
+
+                            <form method="POST"
+                                  action="{% url 'contratos:cambiar_estado_contrato' contrato.id %}"
+                                  class="d-inline"
+                                  onsubmit="return confirm('¿Deseas cambiar el estado de este contrato?');">
+
+                                {% csrf_token %}
+
+                                {% if contrato.estado == 'activo' %}
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger"
+                                            title="Suspender contrato">
+                                        <i class="bi bi-pause-circle"></i>
+                                    </button>
+                                {% else %}
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-success"
+                                            title="Activar contrato">
+                                        <i class="bi bi-play-circle"></i>
+                                    </button>
+                                {% endif %}
+
+                            </form>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="7" class="text-center py-5">
+                            <i class="bi bi-file-earmark-text fs-1 text-muted"></i>
+
+                            <p class="text-muted mt-2 mb-0">
+                                Todavía no existen contratos registrados.
+                            </p>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+

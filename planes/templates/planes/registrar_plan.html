@@ -1,0 +1,130 @@
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Registrar plan | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}{{ titulo }}{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white py-3">
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-wifi me-2 text-primary"></i>
+                    Información del plan de Internet
+                </h5>
+            </div>
+
+            <div class="card-body p-4">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <!-- Errores generales del formulario -->
+                    {% if formulario.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ formulario.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Nombre del plan -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Nombre del plan
+                        </label>
+
+                        {{ formulario.nombre }}
+
+                        {% for error in formulario.nombre.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Velocidad -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Velocidad de Internet (Mbps)
+                        </label>
+
+                        {{ formulario.velocidad }}
+
+                        {% for error in formulario.velocidad.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Precio -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Precio mensual ($)
+                        </label>
+
+                        {{ formulario.precio_mensual }}
+
+                        {% for error in formulario.precio_mensual.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Descripción
+                        </label>
+
+                        {{ formulario.descripcion }}
+
+                        {% for error in formulario.descripcion.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Estado del plan
+                        </label>
+
+                        {{ formulario.estado }}
+
+                        {% for error in formulario.estado.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
+
+                        <a href="{% url 'planes:listar_planes' %}"
+                           class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Regresar
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-2"></i>
+                            {% if plan %}
+                                Guardar cambios
+                            {% else %}
+                                Registrar plan
+                            {% endif %}
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

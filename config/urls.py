@@ -15,4 +15,10 @@ urlpatterns = [
     # Conectamos las rutas de la aplicación clientes.
     path('clientes/', include('clientes.urls')),
 
+    # Conectamos las rutas de la aplicación planes.
+    path('planes/', include('planes.urls')),
+
+    # Conectamos las rutas de contratos.
+    path('contratos/', include('contratos.urls')),
+
 ]
