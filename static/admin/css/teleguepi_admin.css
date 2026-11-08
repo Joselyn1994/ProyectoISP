@@ -1,0 +1,218 @@
+
+/* =====================================================
+   TELEGUEPI ISP - PERSONALIZACIÓN DE DJANGO ADMIN
+   ===================================================== */
+
+:root {
+    --color-principal: #153B63;
+    --color-secundario: #2476B9;
+    --color-celeste: #53B8E8;
+    --color-fondo: #F3F6FA;
+    --color-blanco: #FFFFFF;
+    --color-texto: #26384A;
+    --color-texto-suave: #8291A3;
+    --color-borde: #E5EBF2;
+    --sombra: 0 4px 18px rgba(25, 55, 85, 0.07);
+}
+
+/* Fondo general */
+body {
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Encabezado */
+#header {
+    background: linear-gradient(110deg, #102D4C, #173F68);
+    color: var(--color-blanco);
+    padding: 16px 25px;
+    box-shadow: var(--sombra);
+}
+
+#branding h1,
+#branding h1 a {
+    color: var(--color-blanco);
+    font-weight: 700;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+#user-tools,
+#user-tools a {
+    color: var(--color-blanco);
+}
+
+/* Área principal */
+#main {
+    background: var(--color-fondo);
+}
+
+#content {
+    padding: 25px;
+}
+
+#content h1 {
+    color: var(--color-principal);
+    font-weight: 700;
+    margin-bottom: 22px;
+}
+
+/* Migas de pan */
+div.breadcrumbs {
+    background: #E7F1FA;
+    color: var(--color-principal);
+    padding: 12px 25px;
+}
+
+div.breadcrumbs a {
+    color: var(--color-secundario);
+}
+
+/* Módulos y paneles */
+.module,
+#changelist,
+.inline-group {
+    background: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: var(--color-principal);
+    color: var(--color-blanco);
+    padding: 13px 16px;
+    font-weight: 600;
+}
+
+/* Enlaces */
+a:link,
+a:visited {
+    color: var(--color-secundario);
+}
+
+a:hover {
+    color: var(--color-celeste);
+}
+
+/* Botones */
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input,
+a.button {
+    background: var(--color-secundario);
+    color: var(--color-blanco) !important;
+    border: none;
+    border-radius: 7px;
+    padding: 9px 17px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.button:hover,
+input[type=submit]:hover,
+input[type=button]:hover,
+.submit-row input:hover {
+    background: var(--color-principal);
+}
+
+/* Formularios */
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=date],
+input[type=datetime-local],
+select,
+textarea {
+    border: 1px solid var(--color-borde);
+    border-radius: 7px;
+    padding: 9px 11px;
+    color: var(--color-texto);
+    background: var(--color-blanco);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--color-secundario);
+    outline: 2px solid rgba(36, 118, 185, 0.12);
+}
+
+/* Tablas */
+#result_list {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#result_list thead th {
+    background: #E7F1FA;
+    color: var(--color-principal);
+}
+
+#result_list tbody tr:hover {
+    background: #F1F7FC;
+}
+
+/* Mensajes */
+ul.messagelist li {
+    border-radius: 8px;
+    box-shadow: var(--sombra);
+    padding: 12px 16px;
+}
+
+/* Panel lateral de navegación */
+#nav-sidebar {
+    background: var(--color-blanco);
+    border-right: 1px solid var(--color-borde);
+}
+
+#nav-sidebar .current-model {
+    background: #E7F1FA;
+    border-radius: 6px;
+}
+
+/* Página de inicio de sesión */
+body.login {
+    background: linear-gradient(135deg, #102D4C, #2476B9);
+}
+
+.login #container {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+}
+
+.login #header {
+    text-align: center;
+}
+
+.login #content {
+    background: var(--color-blanco);
+    padding: 30px;
+}
+
+.login .form-row {
+    padding: 8px 0;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 768px) {
+    #content {
+        padding: 15px;
+    }
+
+    #header {
+        padding: 14px;
+    }
+
+    .login #container {
+        width: 95%;
+    }
+}

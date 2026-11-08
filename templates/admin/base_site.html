@@ -1,0 +1,22 @@
+
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}
+    TELEGUEPI ISP | Administración
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin/css/teleguepi_admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            TELEGUEPI ISP
+        </a>
+    </h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

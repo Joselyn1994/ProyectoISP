@@ -1,4 +1,5 @@
 
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
@@ -13,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Iconos -->
+    <!-- Iconos Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
           rel="stylesheet">
 
@@ -32,7 +33,6 @@
 
         <!-- LOGOTIPO -->
         <div class="brand">
-
             <div class="brand-icon">
                 <i class="bi bi-wifi"></i>
             </div>
@@ -41,7 +41,6 @@
                 <h4>TELEGUEPI</h4>
                 <span>ISP MANAGEMENT</span>
             </div>
-
         </div>
 
         <!-- NAVEGACIÓN -->
@@ -49,9 +48,10 @@
 
             <p class="menu-heading">GENERAL</p>
 
-            <!-- Panel principal: provisional hasta crear el dashboard -->
+            <!-- Panel principal provisional -->
             <a href="{% url 'clientes:listar_clientes' %}"
-               class="menu-link">
+               class="menu-link {% if request.resolver_match.namespace == 'clientes' %}active{% endif %}">
+
                 <i class="bi bi-speedometer2"></i>
                 <span>Panel principal</span>
             </a>
@@ -64,7 +64,6 @@
 
                 <i class="bi bi-people"></i>
                 <span>Clientes</span>
-
             </a>
 
             <!-- MÓDULO PLANES -->
@@ -73,7 +72,6 @@
 
                 <i class="bi bi-wifi"></i>
                 <span>Planes de Internet</span>
-
             </a>
 
             <!-- MÓDULO CONTRATOS -->
@@ -82,15 +80,15 @@
 
                 <i class="bi bi-file-earmark-text"></i>
                 <span>Contratos</span>
-
             </a>
 
-            <!-- MÓDULO PAGOS: PENDIENTE -->
-            <div class="menu-link disabled">
+            <!-- MÓDULO PAGOS -->
+            <a href="{% url 'pagos:listar_pagos' %}"
+               class="menu-link {% if request.resolver_match.namespace == 'pagos' %}active{% endif %}">
+
                 <i class="bi bi-wallet2"></i>
                 <span>Pagos</span>
-                <small>Próximamente</small>
-            </div>
+            </a>
 
             <p class="menu-heading">ADMINISTRACIÓN</p>
 
@@ -191,4 +189,3 @@
 
 </body>
 </html>
-

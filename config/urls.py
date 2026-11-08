@@ -9,16 +9,18 @@ from django.urls import path, include
 # Definimos las rutas principales del proyecto.
 urlpatterns = [
 
-    # Ruta para acceder al administrador de Django.
+    # Panel administrativo.
     path('admin/', admin.site.urls),
 
-    # Conectamos las rutas de la aplicación clientes.
+    # Módulo de clientes.
     path('clientes/', include('clientes.urls')),
 
-    # Conectamos las rutas de la aplicación planes.
+    # Módulo de planes.
     path('planes/', include('planes.urls')),
 
-    # Conectamos las rutas de contratos.
+    # Módulo de contratos.
     path('contratos/', include('contratos.urls')),
 
+    # Módulo de pagos.
+    path('pagos/', include('pagos.urls')),
 ]

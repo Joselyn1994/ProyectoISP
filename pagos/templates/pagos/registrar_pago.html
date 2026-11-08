@@ -1,0 +1,171 @@
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Registrar mensualidad | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}Registrar mensualidad{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ENCABEZADO -->
+    <div class="mb-4">
+
+        <a href="{% url 'pagos:listar_pagos' %}"
+           class="text-decoration-none">
+
+            <i class="bi bi-arrow-left"></i>
+            Volver a pagos
+
+        </a>
+
+        <h3 class="fw-bold mt-3">
+            <i class="bi bi-plus-circle text-primary"></i>
+            Registrar mensualidad
+        </h3>
+
+        <p class="text-secondary">
+            Registra el cobro mensual correspondiente a un contrato.
+        </p>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
+    <div class="row">
+
+        <div class="col-12 col-lg-8 col-xl-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white py-3">
+
+                    <h5 class="fw-bold mb-0">
+                        Información de la mensualidad
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <!-- CONTRATO -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Contrato del cliente
+                            </label>
+
+                            <select name="contrato"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Selecciona un contrato
+                                </option>
+
+                                {% for contrato in contratos %}
+
+                                <option value="{{ contrato.id }}">
+
+                                    {{ contrato.codigo }} -
+                                    {{ contrato.cliente.nombres }}
+                                    {{ contrato.cliente.apellidos }} -
+                                    {{ contrato.plan.nombre }} -
+                                    ${{ contrato.plan.precio_mensual }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                            <div class="form-text">
+                                Selecciona el contrato al que corresponde esta mensualidad.
+                            </div>
+
+                        </div>
+
+
+                        <!-- MES DE REFERENCIA -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Mes de referencia
+                            </label>
+
+                            <input type="month"
+                                   name="mes_referencia"
+                                   class="form-control"
+                                   required>
+
+                            <div class="form-text">
+                                Selecciona el mes que el cliente debe pagar.
+                            </div>
+
+                        </div>
+
+
+                        <!-- FECHA DE VENCIMIENTO -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Fecha de vencimiento
+                            </label>
+
+                            <input type="date"
+                                   name="fecha_vencimiento"
+                                   class="form-control"
+                                   required>
+
+                        </div>
+
+
+                        <!-- INFORMACIÓN DEL PRECIO -->
+                        <div class="alert alert-info">
+
+                            <i class="bi bi-info-circle me-2"></i>
+
+                            El valor de la mensualidad se obtiene automáticamente
+                            del precio actual del plan de Internet seleccionado.
+
+                        </div>
+
+
+                        <!-- BOTONES -->
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a href="{% url 'pagos:listar_pagos' %}"
+                               class="btn btn-outline-secondary">
+
+                                Cancelar
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-save me-1"></i>
+                                Guardar mensualidad
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
