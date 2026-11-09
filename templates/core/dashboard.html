@@ -1,0 +1,285 @@
+
+{% extends "core/base.html" %}
+
+{% block title %}Panel principal | TELEGUEPI ISP{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <i class="bi bi-wifi"></i>
+            <div>
+                <h4>TELEGUEPI</h4>
+                <small>INTERNET SERVICE</small>
+            </div>
+        </div>
+
+        <div class="sidebar-label">MENÚ PRINCIPAL</div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#" class="active">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Panel principal</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bi bi-people"></i>
+                    <span>Clientes</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bi bi-router"></i>
+                    <span>Planes de Internet</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Contratos</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bi bi-wallet2"></i>
+                    <span>Pagos</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-label">FINANZAS</div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#">
+                    <i class="bi bi-cash-stack"></i>
+                    <span>Ingresos y egresos</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="bi bi-bar-chart-line"></i>
+                    <span>Estadísticas</span>
+                </a>
+            </li>
+        </ul>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+
+        <!-- BARRA SUPERIOR -->
+        <header class="topbar">
+            <h5>Panel de control</h5>
+
+            <div class="topbar-user">
+                <i class="bi bi-person-circle fs-4"></i>
+                <span>Administrador</span>
+            </div>
+        </header>
+
+        <!-- BIENVENIDA -->
+        <section class="page-heading">
+            <h1>¡Bienvenido a TELEGUEPI ISP!</h1>
+            <p>Gestiona tu proveedor de Internet desde un solo lugar.</p>
+        </section>
+
+        <!-- TARJETAS DE ESTADÍSTICAS -->
+        <section class="row g-4">
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6>Clientes registrados</h6>
+                        <div class="stat-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                    </div>
+                    <h3>0</h3>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6>Planes disponibles</h6>
+                        <div class="stat-icon">
+                            <i class="bi bi-router"></i>
+                        </div>
+                    </div>
+                    <h3>0</h3>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6>Pagos pendientes</h6>
+                        <div class="stat-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                    </div>
+                    <h3>0</h3>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6>Ingresos del mes</h6>
+                        <div class="stat-icon">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                    </div>
+                    <h3>$0.00</h3>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN DE GRÁFICOS -->
+        <section class="row g-4 mt-2">
+
+            <div class="col-12 col-xl-8">
+                <div class="stat-card">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="fw-bold mb-1">Resumen de ingresos</h5>
+                            <small class="text-secondary">Comportamiento mensual</small>
+                        </div>
+
+                        <span class="badge text-bg-info">Anual</span>
+                    </div>
+
+                    <div style="height: 300px;">
+                        <canvas id="graficoIngresos"></canvas>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-4">
+                <div class="stat-card">
+
+                    <h5 class="fw-bold mb-1">Estado del sistema</h5>
+                    <p class="text-secondary small">Resumen de conexión</p>
+
+                    <div class="d-flex align-items-center gap-2 mt-4">
+                        <span class="badge rounded-pill text-bg-success">Activo</span>
+                        <span>Servidor de TELEGUEPI</span>
+                    </div>
+
+                    <hr>
+
+                    <p class="small text-secondary mb-2">Base de datos</p>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-database-check text-success fs-4"></i>
+                        <strong>PostgreSQL</strong>
+                    </div>
+
+                    <hr>
+
+                    <p class="small text-secondary mb-2">Plataforma</p>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-code-slash text-primary fs-4"></i>
+                        <strong>Django</strong>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+    // Buscamos el elemento donde aparecerá el gráfico.
+    const elementoGrafico = document.getElementById('graficoIngresos');
+
+    // Verificamos que el elemento y Chart.js estén disponibles.
+    if (elementoGrafico && typeof Chart !== 'undefined') {
+
+        // Creamos el gráfico de ingresos mensuales.
+        new Chart(elementoGrafico, {
+
+            type: 'line',
+
+            data: {
+                labels: [
+                    'Enero',
+                    'Febrero',
+                    'Marzo',
+                    'Abril',
+                    'Mayo',
+                    'Junio',
+                    'Julio',
+                    'Agosto',
+                    'Septiembre',
+                    'Octubre',
+                    'Noviembre',
+                    'Diciembre'
+                ],
+
+                datasets: [{
+                    label: 'Ingresos ($)',
+
+                    data: [
+                        450, 520, 480, 650,
+                        700, 620, 850, 900,
+                        780, 950, 1100, 1250
+                    ],
+
+                    borderColor: '#1769AA',
+                    backgroundColor: 'rgba(32, 184, 213, 0.15)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#20B8D5',
+                    pointRadius: 5
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+
+        });
+    }
+</script>
+
+{% endblock %}
+
+

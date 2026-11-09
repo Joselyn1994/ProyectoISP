@@ -1,0 +1,49 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="teleguepi-dashboard">
+
+    <!-- Encabezado del panel -->
+    <div class="dashboard-welcome">
+        <h1>Bienvenido a TELEGUEPI ISP</h1>
+        <p>Panel de administración y gestión de tu proveedor de Internet.</p>
+    </div>
+
+    <!-- Módulos del sistema -->
+    <div class="dashboard-section">
+        <h2>Módulos del sistema</h2>
+
+        <div class="dashboard-modules">
+
+            {% for app in app_list %}
+
+                {% for model in app.models %}
+
+                    <a href="{{ model.admin_url }}"
+                       class="dashboard-card">
+
+                        <div class="card-icon">
+                            <span>●</span>
+                        </div>
+
+                        <div class="card-info">
+                            <h3>{{ model.name }}</h3>
+                            <p>Administrar módulo</p>
+                        </div>
+
+                        <span class="card-arrow">→</span>
+
+                    </a>
+
+                {% endfor %}
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

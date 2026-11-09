@@ -216,3 +216,114 @@ body.login {
         width: 95%;
     }
 }
+
+/* =========================================
+   PANEL PRINCIPAL TELEGUEPI ISP
+   ========================================= */
+
+.teleguepi-dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Bienvenida */
+.dashboard-welcome {
+    background: linear-gradient(120deg, #153B63, #2476B9);
+    color: white;
+    padding: 35px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(21, 59, 99, 0.15);
+}
+
+.dashboard-welcome h1 {
+    color: white !important;
+    font-size: 28px;
+    margin: 0 0 10px;
+}
+
+.dashboard-welcome p {
+    color: #E4F2FF;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Sección de módulos */
+.dashboard-section h2 {
+    color: #153B63;
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+.dashboard-modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjetas */
+.dashboard-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: white;
+    border: 1px solid #E5EBF2;
+    border-radius: 14px;
+    padding: 22px;
+    text-decoration: none !important;
+    box-shadow: 0 4px 15px rgba(25, 55, 85, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 9px 22px rgba(25, 55, 85, 0.12);
+}
+
+.card-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E7F1FA;
+    color: #2476B9;
+    border-radius: 12px;
+    font-size: 25px;
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-info h3 {
+    color: #153B63;
+    font-size: 16px;
+    margin: 0 0 6px;
+}
+
+.card-info p {
+    color: #8291A3;
+    font-size: 12px;
+    margin: 0;
+}
+
+.card-arrow {
+    color: #2476B9;
+    font-size: 22px;
+}
+
+/* Adaptación a celulares */
+@media (max-width: 600px) {
+    .dashboard-welcome {
+        padding: 22px;
+    }
+
+    .dashboard-welcome h1 {
+        font-size: 22px;
+    }
+
+    .dashboard-modules {
+        grid-template-columns: 1fr;
+    }
+}

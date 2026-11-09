@@ -1,0 +1,217 @@
+
+/* ==========================================
+   TELEGUEPI ISP - DISEÑO PROFESIONAL
+   ========================================== */
+
+:root {
+    --azul-oscuro: #142B49;
+    --azul-principal: #1769AA;
+    --turquesa: #20B8D5;
+    --fondo: #F3F6FA;
+    --blanco: #FFFFFF;
+    --texto: #25364A;
+    --texto-suave: #8291A3;
+    --borde: #E5EBF2;
+}
+
+/* Configuración general */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Estructura principal */
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Menú lateral */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: var(--azul-oscuro);
+    color: var(--blanco);
+    padding: 25px 16px;
+    flex-shrink: 0;
+}
+
+/* Identidad del sistema */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 10px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.sidebar-brand i {
+    color: var(--turquesa);
+    font-size: 30px;
+}
+
+.sidebar-brand h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--blanco);
+}
+
+.sidebar-brand small {
+    color: #A9BDD3;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+/* Títulos del menú */
+.sidebar-label {
+    color: #8EA6C0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 25px 12px 10px;
+}
+
+/* Enlaces del menú */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 14px;
+    color: #D5E3F2;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+.sidebar-menu a i {
+    font-size: 18px;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    background: var(--azul-principal);
+    color: var(--blanco);
+}
+
+/* Área de contenido */
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 28px 32px;
+}
+
+/* Barra superior */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--blanco);
+    padding: 16px 22px;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    margin-bottom: 28px;
+}
+
+.topbar h5 {
+    color: var(--azul-oscuro);
+    font-weight: 700;
+    margin: 0;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--texto-suave);
+    font-size: 13px;
+}
+
+/* Bienvenida */
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    color: var(--azul-oscuro);
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.page-heading p {
+    color: var(--texto-suave);
+    margin: 0;
+}
+
+/* Tarjetas estadísticas */
+.stat-card {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+    padding: 22px;
+    height: 100%;
+    box-shadow: 0 3px 12px rgba(20,43,73,0.04);
+}
+
+.stat-card h6 {
+    color: var(--texto-suave);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.stat-card h3 {
+    color: var(--azul-oscuro);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E7F5FA;
+    color: var(--azul-principal);
+    border-radius: 11px;
+    font-size: 21px;
+}
+
+/* Adaptación a celulares */
+@media (max-width: 768px) {
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .main-content {
+        padding: 18px;
+    }
+
+    .topbar {
+        padding: 14px;
+    }
+}
