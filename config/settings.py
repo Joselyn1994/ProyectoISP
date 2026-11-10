@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'planes',
     'contratos',
     'pagos',
+    'gastos',
+
 ]
 
 

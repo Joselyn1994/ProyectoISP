@@ -5,14 +5,16 @@ from django.contrib import admin
 # Importamos path e include para configurar las rutas.
 from django.urls import path, include
 
-# Importamos la función que mostrará el panel principal.
-from django.views.generic import TemplateView
+
+from . import views
 
 # Definimos las rutas principales del proyecto.
 urlpatterns = [
 
-    # Página principal del sistema TELEGUEPI ISP.
-    path('', TemplateView.as_view(template_name='core/dashboard.html'), name='dashboard'),
+# Página principal del sistema TELEGUEPI ISP.
+# Página principal: ejecuta la vista dashboard,que consulta los datos reales de la base de datos
+# y los envía a la plantilla del panel principal.
+path('', views.dashboard, name='dashboard'),
 
     # Panel administrativo.
     path('admin/', admin.site.urls),
@@ -28,4 +30,7 @@ urlpatterns = [
 
     # Módulo de pagos.
     path('pagos/', include('pagos.urls')),
+
+     # Módulo de gastos.
+    path('gastos/', include('gastos.urls')),
 ]

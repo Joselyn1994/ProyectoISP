@@ -1,0 +1,171 @@
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Registrar Gasto | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}Registrar gasto{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ENCABEZADO -->
+    <div class="mb-4">
+
+        <h3 class="fw-bold mb-1">
+            <i class="bi bi-cash-stack text-primary"></i>
+            Registrar nuevo gasto
+        </h3>
+
+        <p class="text-secondary mb-0">
+            Ingresa la información del egreso realizado por la empresa.
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white py-3">
+            <h5 class="fw-bold mb-0">
+                <i class="bi bi-file-earmark-text me-2 text-primary"></i>
+                Información del gasto
+            </h5>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {% if formulario.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ formulario.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="row g-3">
+
+                    <!-- CATEGORÍA -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Categoría <span class="text-danger">*</span>
+                        </label>
+
+                        {{ formulario.categoria }}
+
+                        {% for error in formulario.categoria.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- DESCRIPCIÓN -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Descripción <span class="text-danger">*</span>
+                        </label>
+
+                        {{ formulario.descripcion }}
+
+                        {% for error in formulario.descripcion.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- MONTO -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Monto ($) <span class="text-danger">*</span>
+                        </label>
+
+                        {{ formulario.monto }}
+
+                        {% for error in formulario.monto.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- FECHA -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Fecha del gasto <span class="text-danger">*</span>
+                        </label>
+
+                        {{ formulario.fecha_gasto }}
+
+                        {% for error in formulario.fecha_gasto.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- MÉTODO DE PAGO -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Método de pago <span class="text-danger">*</span>
+                        </label>
+
+                        {{ formulario.metodo_pago }}
+
+                        {% for error in formulario.metodo_pago.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- COMPROBANTE -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Número de comprobante
+                        </label>
+
+                        {{ formulario.comprobante }}
+
+                        {% for error in formulario.comprobante.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">
+                            Observaciones
+                        </label>
+
+                        {{ formulario.observaciones }}
+
+                        {% for error in formulario.observaciones.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex justify-content-end gap-2 mt-4">
+
+                    <a href="{% url 'gastos:listar_gastos' %}"
+                       class="btn btn-outline-secondary">
+
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Cancelar
+
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-save me-1"></i>
+                        Guardar gasto
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

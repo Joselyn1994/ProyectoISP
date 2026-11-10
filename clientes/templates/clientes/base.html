@@ -48,14 +48,13 @@
 
             <p class="menu-heading">GENERAL</p>
 
-            <!-- Panel principal provisional -->
-            <a href="{% url 'clientes:listar_clientes' %}"
-               class="menu-link {% if request.resolver_match.namespace == 'clientes' %}active{% endif %}">
+            <!-- Panel principal -->
+            <a href="{% url 'dashboard' %}"
+                class="menu-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
 
-                <i class="bi bi-speedometer2"></i>
-                <span>Panel principal</span>
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Panel principal</span>
             </a>
-
             <p class="menu-heading">GESTIÓN</p>
 
             <!-- MÓDULO CLIENTES -->

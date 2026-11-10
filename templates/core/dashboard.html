@@ -22,35 +22,35 @@
 
         <ul class="sidebar-menu">
             <li>
-                <a href="#" class="active">
+                <a href="{% url 'dashboard' %}" class="active">
                     <i class="bi bi-speedometer2"></i>
                     <span>Panel principal</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="/clientes/">
                     <i class="bi bi-people"></i>
                     <span>Clientes</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="/planes/">
                     <i class="bi bi-router"></i>
                     <span>Planes de Internet</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="/contratos/">
                     <i class="bi bi-file-earmark-text"></i>
                     <span>Contratos</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="/pagos/">
                     <i class="bi bi-wallet2"></i>
                     <span>Pagos</span>
                 </a>
@@ -61,7 +61,7 @@
 
         <ul class="sidebar-menu">
             <li>
-                <a href="#">
+                <a href="/gastos/">
                     <i class="bi bi-cash-stack"></i>
                     <span>Ingresos y egresos</span>
                 </a>
@@ -107,7 +107,8 @@
                             <i class="bi bi-people"></i>
                         </div>
                     </div>
-                    <h3>0</h3>
+                    <!-- Total de clientes consultados en PostgreSQL -->
+                    <h3>{{ total_clientes }}</h3>
                 </div>
             </div>
 
@@ -119,7 +120,8 @@
                             <i class="bi bi-router"></i>
                         </div>
                     </div>
-                    <h3>0</h3>
+                    <!-- Total de planes activos -->
+                    <h3>{{ planes_disponibles }}</h3>
                 </div>
             </div>
 
@@ -131,7 +133,8 @@
                             <i class="bi bi-clock-history"></i>
                         </div>
                     </div>
-                    <h3>0</h3>
+                    <!-- Total de pagos pendientes -->
+                    <h3>{{ pagos_pendientes }}</h3>
                 </div>
             </div>
 
@@ -143,7 +146,8 @@
                             <i class="bi bi-cash-stack"></i>
                         </div>
                     </div>
-                    <h3>$0.00</h3>
+                    <!-- Suma de pagos recibidos durante el mes actual -->
+                    <h3>${{ ingresos_mes|floatformat:2 }}</h3>
                 </div>
             </div>
 
@@ -163,6 +167,10 @@
 
                         <span class="badge text-bg-info">Anual</span>
                     </div>
+
+                    <!-- Datos reales enviados por Django para el gráfico -->
+                    {{ nombres_meses|json_script:"nombres-meses-data" }}
+                    {{ ingresos_mensuales|json_script:"ingresos-mensuales-data" }}
 
                     <div style="height: 300px;">
                         <canvas id="graficoIngresos"></canvas>
@@ -213,41 +221,34 @@
 {% block extra_js %}
 
 <script>
+    // Recuperamos los meses enviados desde la vista de Django.
+    const nombresMeses = JSON.parse(
+        document.getElementById('nombres-meses-data').textContent
+    );
+
+    // Recuperamos los ingresos reales de cada mes.
+    const ingresosMensuales = JSON.parse(
+        document.getElementById('ingresos-mensuales-data').textContent
+    );
+
     // Buscamos el elemento donde aparecerá el gráfico.
     const elementoGrafico = document.getElementById('graficoIngresos');
 
     // Verificamos que el elemento y Chart.js estén disponibles.
     if (elementoGrafico && typeof Chart !== 'undefined') {
 
-        // Creamos el gráfico de ingresos mensuales.
+        // Creamos el gráfico con los datos reales de PostgreSQL.
         new Chart(elementoGrafico, {
 
             type: 'line',
 
             data: {
-                labels: [
-                    'Enero',
-                    'Febrero',
-                    'Marzo',
-                    'Abril',
-                    'Mayo',
-                    'Junio',
-                    'Julio',
-                    'Agosto',
-                    'Septiembre',
-                    'Octubre',
-                    'Noviembre',
-                    'Diciembre'
-                ],
+                labels: nombresMeses,
 
                 datasets: [{
                     label: 'Ingresos ($)',
 
-                    data: [
-                        450, 520, 480, 650,
-                        700, 620, 850, 900,
-                        780, 950, 1100, 1250
-                    ],
+                    data: ingresosMensuales,
 
                     borderColor: '#1769AA',
                     backgroundColor: 'rgba(32, 184, 213, 0.15)',
@@ -274,6 +275,7 @@
                         beginAtZero: true
                     }
                 }
+
             }
 
         });
