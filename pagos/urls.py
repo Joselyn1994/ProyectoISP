@@ -5,10 +5,8 @@ from django.urls import path
 # Importamos las funciones del archivo views.
 from . import views
 
-
 # Nombre de la aplicación.
 app_name = 'pagos'
-
 
 # Direcciones del módulo de pagos.
 urlpatterns = [

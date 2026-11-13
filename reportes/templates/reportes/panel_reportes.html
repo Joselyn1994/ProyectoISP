@@ -1,0 +1,419 @@
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Reportes | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}Centro de reportes{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Encabezado -->
+    <div class="mb-4">
+        <h4 class="fw-bold mb-1">Reportes del sistema</h4>
+        <p class="text-muted mb-0">
+            Consulta y analiza la información de TELEGUEPI ISP.
+        </p>
+    </div>
+
+    <!-- Filtros por fecha -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3 align-items-end">
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">
+                        Fecha inicial
+                    </label>
+                    <input
+                        type="date"
+                        name="fecha_inicio"
+                        class="form-control"
+                        value="{{ fecha_inicio }}"
+                    >
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">
+                        Fecha final
+                    </label>
+                    <input
+                        type="date"
+                        name="fecha_fin"
+                        class="form-control"
+                        value="{{ fecha_fin }}"
+                    >
+                </div>
+
+                <div class="col-md-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-funnel"></i> Filtrar
+                    </button>
+
+                    <a href="{% url 'reportes:panel_reportes' %}"
+                       class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Limpiar
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Indicadores generales -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-1">Clientes registrados</p>
+                            <h3 class="fw-bold mb-1">{{ total_clientes }}</h3>
+                            <small class="text-success">
+                                {{ clientes_activos }} activos
+                            </small>
+                        </div>
+                        <div class="fs-2 text-primary">
+                            <i class="bi bi-people"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">
+                        {{ clientes_inactivos }} inactivos
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-1">Contratos</p>
+                            <h3 class="fw-bold mb-1">{{ total_contratos }}</h3>
+                            <small class="text-success">
+                                {{ contratos_activos }} activos
+                            </small>
+                        </div>
+                        <div class="fs-2 text-info">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">
+                        {{ contratos_suspendidos }} suspendidos ·
+                        {{ contratos_finalizados }} finalizados
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-1">Pagos realizados</p>
+                            <h3 class="fw-bold mb-1">
+                                {{ pagos_realizados }}
+                            </h3>
+                            <small class="text-success">
+                                ${{ ingresos|floatformat:2 }}
+                            </small>
+                        </div>
+                        <div class="fs-2 text-success">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">
+                        {{ cantidad_pendientes }} pendientes
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-1">Gastos registrados</p>
+                            <h3 class="fw-bold mb-1">{{ total_gastos }}</h3>
+                            <small class="text-danger">
+                                ${{ egresos|floatformat:2 }}
+                            </small>
+                        </div>
+                        <div class="fs-2 text-danger">
+                            <i class="bi bi-receipt"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">
+                        Total de egresos
+                    </small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Resumen financiero -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-3">
+                <i class="bi bi-graph-up-arrow text-primary"></i>
+                Resumen financiero
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <div class="p-3 rounded-3 bg-light h-100">
+                        <small class="text-muted">Ingresos</small>
+                        <h4 class="text-success fw-bold mb-0">
+                            ${{ ingresos|floatformat:2 }}
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 rounded-3 bg-light h-100">
+                        <small class="text-muted">Egresos</small>
+                        <h4 class="text-danger fw-bold mb-0">
+                            ${{ egresos|floatformat:2 }}
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 rounded-3 bg-light h-100">
+                        <small class="text-muted">Balance</small>
+                        <h4 class="fw-bold mb-0 {% if balance >= 0 %}text-success{% else %}text-danger{% endif %}">
+                            ${{ balance|floatformat:2 }}
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Estado de pagos -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-3">
+                <i class="bi bi-cash-stack text-primary"></i>
+                Estado de pagos
+            </h5>
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <p class="text-muted mb-1">Total de mensualidades</p>
+                    <h4 class="fw-bold">{{ total_pagos }}</h4>
+                </div>
+
+                <div class="col-md-4">
+                    <p class="text-muted mb-1">Valor pendiente</p>
+                    <h4 class="fw-bold text-warning">
+                        ${{ valor_pendiente|floatformat:2 }}
+                    </h4>
+                </div>
+
+                <div class="col-md-4">
+                    <p class="text-muted mb-1">Pagos vencidos</p>
+                    <h4 class="fw-bold text-danger">{{ pagos_vencidos }}</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Últimos clientes -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-3">Últimos clientes registrados</h5>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Cédula</th>
+                            <th>Teléfono</th>
+                            <th>Fecha de registro</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in ultimos_clientes %}
+                        <tr>
+                            <td>{{ cliente.nombres }} {{ cliente.apellidos }}</td>
+                            <td>{{ cliente.cedula }}</td>
+                            <td>{{ cliente.telefono }}</td>
+                            <td>{{ cliente.fecha_registro|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if cliente.estado == 'activo' %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactivo</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">
+                                No hay clientes registrados en este periodo.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Últimos contratos -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-3">Últimos contratos</h5>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Plan</th>
+                            <th>Fecha de inicio</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contrato in ultimos_contratos %}
+                        <tr>
+                            <td>{{ contrato.codigo }}</td>
+                            <td>{{ contrato.cliente }}</td>
+                            <td>{{ contrato.plan }}</td>
+                            <td>{{ contrato.fecha_inicio|date:"d/m/Y" }}</td>
+                            <td>
+                                {% if contrato.estado == 'activo' %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% elif contrato.estado == 'suspendido' %}
+                                    <span class="badge bg-warning text-dark">Suspendido</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Finalizado</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">
+                                No hay contratos registrados en este periodo.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Últimos pagos -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-3">Últimos pagos</h5>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Contrato</th>
+                            <th>Mes de referencia</th>
+                            <th>Fecha de vencimiento</th>
+                            <th>Valor</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pago in ultimos_pagos %}
+                        <tr>
+                            <td>{{ pago.contrato.cliente }}</td>
+                            <td>{{ pago.contrato.codigo }}</td>
+                            <td>{{ pago.mes_referencia|date:"m/Y" }}</td>
+                            <td>{{ pago.fecha_vencimiento|date:"d/m/Y" }}</td>
+                            <td>${{ pago.valor|floatformat:2 }}</td>
+                            <td>
+                                {% if pago.estado == 'pagado' %}
+                                    <span class="badge bg-success">Pagado</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-3">
+                                No hay pagos registrados en este periodo.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Últimos gastos -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-3">Últimos gastos registrados</h5>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Categoría</th>
+                            <th>Fecha</th>
+                            <th>Método de pago</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for gasto in ultimos_gastos %}
+                        <tr>
+                            <td>{{ gasto.descripcion }}</td>
+                            <td>{{ gasto.get_categoria_display }}</td>
+                            <td>{{ gasto.fecha_gasto|date:"d/m/Y" }}</td>
+                            <td>{{ gasto.get_metodo_pago_display }}</td>
+                            <td>${{ gasto.monto|floatformat:2 }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">
+                                No hay gastos registrados en este periodo.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

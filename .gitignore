@@ -24,3 +24,6 @@ staticfiles/
 # Configuración del sistema operativo
 .DS_Store
 Thumbs.db
+
+# Respaldos locales del proyecto
+backups/

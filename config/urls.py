@@ -1,4 +1,4 @@
-
+﻿
 # Importamos el panel administrativo de Django.
 from django.contrib import admin
 
@@ -13,7 +13,7 @@ urlpatterns = [
 
 # Página principal del sistema TELEGUEPI ISP.
 # Página principal: ejecuta la vista dashboard,que consulta los datos reales de la base de datos
-# y los envía a la plantilla del panel principal.
+# y los envÃ­a a la plantilla del panel principal.
 path('', views.dashboard, name='dashboard'),
 
     # Panel administrativo.
@@ -33,4 +33,10 @@ path('', views.dashboard, name='dashboard'),
 
      # Módulo de gastos.
     path('gastos/', include('gastos.urls')),
+
+    # Módulo de finanzas.
+    path('finanzas/', include('finanzas.urls')),
+
+    # Módulo de reportes.
+    path('reportes/', include('reportes.urls')),
 ]

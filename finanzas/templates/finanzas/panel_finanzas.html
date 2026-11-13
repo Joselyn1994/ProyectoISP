@@ -1,0 +1,268 @@
+
+{% extends "clientes/base.html" %}
+
+{% block title %}Gestión financiera | Teleguepi ISP{% endblock %}
+
+{% block page_heading %}Gestión financiera{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ENCABEZADO -->
+    <div class="mb-4">
+        <h3 class="fw-bold mb-1">
+            <i class="bi bi-graph-up-arrow text-primary"></i>
+            Resumen financiero
+        </h3>
+
+        <p class="text-secondary mb-0">
+            Control de ingresos, egresos y balance económico de TELEGUEPI ISP.
+        </p>
+    </div>
+
+    <!-- TARJETAS FINANCIERAS -->
+    <div class="row g-3 mb-4">
+
+        <!-- INGRESOS -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-secondary mb-1">Total de ingresos</p>
+                            <h3 class="fw-bold text-success">
+                                ${{ total_ingresos|floatformat:2 }}
+                            </h3>
+                            <small class="text-secondary">
+                                {{ cantidad_ingresos }} pagos recibidos
+                            </small>
+                        </div>
+
+                        <i class="bi bi-graph-up-arrow fs-1 text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EGRESOS -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-secondary mb-1">Total de egresos</p>
+                            <h3 class="fw-bold text-danger">
+                                ${{ total_egresos|floatformat:2 }}
+                            </h3>
+                            <small class="text-secondary">
+                                {{ cantidad_egresos }} gastos registrados
+                            </small>
+                        </div>
+
+                        <i class="bi bi-graph-down-arrow fs-1 text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BALANCE -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-secondary mb-1">Balance financiero</p>
+
+                            <h3 class="fw-bold">
+                                ${{ balance|floatformat:2 }}
+                            </h3>
+
+                            {% if balance > 0 %}
+                                <small class="text-success">
+                                    Balance positivo
+                                </small>
+                            {% elif balance < 0 %}
+                                <small class="text-danger">
+                                    Balance negativo
+                                </small>
+                            {% else %}
+                                <small class="text-secondary">
+                                    Balance equilibrado
+                                </small>
+                            {% endif %}
+                        </div>
+
+                        <i class="bi bi-wallet2 fs-1 text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FILTRO DE FECHAS -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-header bg-white py-3">
+            <h5 class="fw-bold mb-0">
+                <i class="bi bi-calendar-range me-2 text-primary"></i>
+                Consultar movimientos
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET" class="row g-3 align-items-end">
+
+                <div class="col-12 col-md-4">
+                    <label for="fecha_inicio" class="form-label">
+                        Fecha inicial
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="fecha_inicio"
+                        name="fecha_inicio"
+                        value="{{ fecha_inicio|date:'Y-m-d' }}"
+                    >
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label for="fecha_fin" class="form-label">
+                        Fecha final
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="fecha_fin"
+                        name="fecha_fin"
+                        value="{{ fecha_fin|date:'Y-m-d' }}"
+                    >
+                </div>
+
+                <div class="col-12 col-md-4 d-flex gap-2">
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search me-1"></i>
+                        Filtrar
+                    </button>
+
+                    <a href="{% url 'finanzas:panel_finanzas' %}"
+                       class="btn btn-outline-secondary">
+                        Limpiar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- HISTORIAL FINANCIERO -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white py-3">
+            <h5 class="fw-bold mb-0">
+                <i class="bi bi-list-ul me-2 text-primary"></i>
+                Historial financiero
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th class="text-end">Monto</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for movimiento in movimientos %}
+
+                        <tr>
+
+                            <td>
+                                {{ movimiento.fecha|date:"d/m/Y" }}
+                            </td>
+
+                            <td>
+                                {% if movimiento.tipo == 'Ingreso' %}
+                                    <span class="badge bg-success">
+                                        Ingreso
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-danger">
+                                        Egreso
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ movimiento.descripcion }}
+                            </td>
+
+                            <td class="text-end fw-bold
+                                {% if movimiento.tipo == 'Ingreso' %}
+                                    text-success
+                                {% else %}
+                                    text-danger
+                                {% endif %}">
+
+                                {% if movimiento.tipo == 'Ingreso' %}
+                                    +
+                                {% else %}
+                                    -
+                                {% endif %}
+
+                                ${{ movimiento.monto|floatformat:2 }}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="4" class="text-center py-5">
+
+                                <i class="bi bi-inbox fs-1 text-secondary"></i>
+
+                                <h5 class="mt-3">
+                                    No hay movimientos financieros
+                                </h5>
+
+                                <p class="text-secondary mb-0">
+                                    Los ingresos y egresos registrados aparecerán aquí.
+                                </p>
+
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -32,7 +32,7 @@ if not SECRET_KEY:
         "No se encontró DJANGO_SECRET_KEY en el archivo .env"
     )
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = []
 
@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'contratos',
     'pagos',
     'gastos',
+    'finanzas',
+    'reportes',
 
 ]
 

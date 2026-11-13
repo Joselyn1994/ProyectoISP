@@ -1,217 +1,214 @@
-
-{% extends "core/base.html" %}
+﻿
+{% extends "clientes/base.html" %}
 
 {% block title %}Panel principal | TELEGUEPI ISP{% endblock %}
 
+{% block page_heading %}Panel de control{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Estilos exclusivos del panel principal */
+    .dashboard-page {
+        width: 100%;
+    }
+
+    .dashboard-page .welcome-section {
+        margin-bottom: 25px;
+    }
+
+    .dashboard-page .welcome-section h1 {
+        color: #153B63;
+        font-size: 25px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .dashboard-page .welcome-section p {
+        color: #8291A3;
+        margin: 0;
+    }
+
+    .dashboard-page .stat-card {
+        background: #FFFFFF;
+        border: 1px solid #E5EBF2;
+        border-radius: 13px;
+        padding: 22px;
+        height: 100%;
+        box-shadow: 0 3px 12px rgba(20, 43, 73, 0.04);
+    }
+
+    .dashboard-page .stat-card h6 {
+        color: #8291A3;
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+
+    .dashboard-page .stat-card h3 {
+        color: #153B63;
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .dashboard-page .stat-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #E7F5FA;
+        color: #2476B9;
+        border-radius: 11px;
+        font-size: 21px;
+        flex-shrink: 0;
+    }
+
+    .dashboard-page .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    .dashboard-page .system-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    @media (max-width: 576px) {
+        .dashboard-page .welcome-section h1 {
+            font-size: 21px;
+        }
+
+        .dashboard-page .stat-card {
+            padding: 17px;
+        }
+    }
+</style>
+{% endblock %}
+
+
 {% block content %}
 
-<div class="dashboard-layout">
+<div class="dashboard-page">
 
-    <!-- MENÚ LATERAL -->
-    <aside class="sidebar">
+    <!-- BIENVENIDA -->
+    <section class="welcome-section">
+        <h1>¡Bienvenido a TELEGUEPI ISP!</h1>
+        <p>Gestiona tu proveedor de Internet desde un solo lugar.</p>
+    </section>
 
-        <div class="sidebar-brand">
-            <i class="bi bi-wifi"></i>
-            <div>
-                <h4>TELEGUEPI</h4>
-                <small>INTERNET SERVICE</small>
+    <!-- TARJETAS DE ESTADÍSTICAS -->
+    <section class="row g-4">
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6>Clientes registrados</h6>
+                    <div class="stat-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                </div>
+                <h3>{{ total_clientes }}</h3>
             </div>
         </div>
 
-        <div class="sidebar-label">MENÚ PRINCIPAL</div>
-
-        <ul class="sidebar-menu">
-            <li>
-                <a href="{% url 'dashboard' %}" class="active">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Panel principal</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/clientes/">
-                    <i class="bi bi-people"></i>
-                    <span>Clientes</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/planes/">
-                    <i class="bi bi-router"></i>
-                    <span>Planes de Internet</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/contratos/">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>Contratos</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/pagos/">
-                    <i class="bi bi-wallet2"></i>
-                    <span>Pagos</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="sidebar-label">FINANZAS</div>
-
-        <ul class="sidebar-menu">
-            <li>
-                <a href="/gastos/">
-                    <i class="bi bi-cash-stack"></i>
-                    <span>Ingresos y egresos</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <i class="bi bi-bar-chart-line"></i>
-                    <span>Estadísticas</span>
-                </a>
-            </li>
-        </ul>
-
-    </aside>
-
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="main-content">
-
-        <!-- BARRA SUPERIOR -->
-        <header class="topbar">
-            <h5>Panel de control</h5>
-
-            <div class="topbar-user">
-                <i class="bi bi-person-circle fs-4"></i>
-                <span>Administrador</span>
-            </div>
-        </header>
-
-        <!-- BIENVENIDA -->
-        <section class="page-heading">
-            <h1>¡Bienvenido a TELEGUEPI ISP!</h1>
-            <p>Gestiona tu proveedor de Internet desde un solo lugar.</p>
-        </section>
-
-        <!-- TARJETAS DE ESTADÍSTICAS -->
-        <section class="row g-4">
-
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Clientes registrados</h6>
-                        <div class="stat-icon">
-                            <i class="bi bi-people"></i>
-                        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6>Planes disponibles</h6>
+                    <div class="stat-icon">
+                        <i class="bi bi-router"></i>
                     </div>
-                    <!-- Total de clientes consultados en PostgreSQL -->
-                    <h3>{{ total_clientes }}</h3>
                 </div>
+                <h3>{{ planes_disponibles }}</h3>
             </div>
+        </div>
 
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Planes disponibles</h6>
-                        <div class="stat-icon">
-                            <i class="bi bi-router"></i>
-                        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6>Pagos pendientes</h6>
+                    <div class="stat-icon">
+                        <i class="bi bi-clock-history"></i>
                     </div>
-                    <!-- Total de planes activos -->
-                    <h3>{{ planes_disponibles }}</h3>
                 </div>
+                <h3>{{ pagos_pendientes }}</h3>
             </div>
+        </div>
 
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Pagos pendientes</h6>
-                        <div class="stat-icon">
-                            <i class="bi bi-clock-history"></i>
-                        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6>Ingresos del mes</h6>
+                    <div class="stat-icon">
+                        <i class="bi bi-cash-stack"></i>
                     </div>
-                    <!-- Total de pagos pendientes -->
-                    <h3>{{ pagos_pendientes }}</h3>
                 </div>
+                <h3>${{ ingresos_mes|floatformat:2 }}</h3>
             </div>
+        </div>
 
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Ingresos del mes</h6>
-                        <div class="stat-icon">
-                            <i class="bi bi-cash-stack"></i>
-                        </div>
+    </section>
+
+    <!-- GRÁFICO Y ESTADO DEL SISTEMA -->
+    <section class="row g-4 mt-2">
+
+        <div class="col-12 col-xl-8">
+            <div class="stat-card">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h5 class="fw-bold mb-1">Resumen de ingresos</h5>
+                        <small class="text-secondary">Comportamiento mensual</small>
                     </div>
-                    <!-- Suma de pagos recibidos durante el mes actual -->
-                    <h3>${{ ingresos_mes|floatformat:2 }}</h3>
+
+                    <span class="badge text-bg-info">Anual</span>
                 </div>
-            </div>
 
-        </section>
+                <!-- Datos enviados por Django -->
+                {{ nombres_meses|json_script:"nombres-meses-data" }}
+                {{ ingresos_mensuales|json_script:"ingresos-mensuales-data" }}
 
-        <!-- SECCIÓN DE GRÁFICOS -->
-        <section class="row g-4 mt-2">
-
-            <div class="col-12 col-xl-8">
-                <div class="stat-card">
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h5 class="fw-bold mb-1">Resumen de ingresos</h5>
-                            <small class="text-secondary">Comportamiento mensual</small>
-                        </div>
-
-                        <span class="badge text-bg-info">Anual</span>
-                    </div>
-
-                    <!-- Datos reales enviados por Django para el gráfico -->
-                    {{ nombres_meses|json_script:"nombres-meses-data" }}
-                    {{ ingresos_mensuales|json_script:"ingresos-mensuales-data" }}
-
-                    <div style="height: 300px;">
-                        <canvas id="graficoIngresos"></canvas>
-                    </div>
-
+                <div class="chart-container">
+                    <canvas id="graficoIngresos"></canvas>
                 </div>
+
             </div>
+        </div>
 
-            <div class="col-12 col-xl-4">
-                <div class="stat-card">
+        <div class="col-12 col-xl-4">
+            <div class="stat-card">
 
-                    <h5 class="fw-bold mb-1">Estado del sistema</h5>
-                    <p class="text-secondary small">Resumen de conexión</p>
+                <h5 class="fw-bold mb-1">Estado del sistema</h5>
+                <p class="text-secondary small">Resumen de conexión</p>
 
-                    <div class="d-flex align-items-center gap-2 mt-4">
-                        <span class="badge rounded-pill text-bg-success">Activo</span>
-                        <span>Servidor de TELEGUEPI</span>
-                    </div>
-
-                    <hr>
-
-                    <p class="small text-secondary mb-2">Base de datos</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-database-check text-success fs-4"></i>
-                        <strong>PostgreSQL</strong>
-                    </div>
-
-                    <hr>
-
-                    <p class="small text-secondary mb-2">Plataforma</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-code-slash text-primary fs-4"></i>
-                        <strong>Django</strong>
-                    </div>
-
+                <div class="system-item">
+                    <span class="badge rounded-pill text-bg-success">Activo</span>
+                    <span>Servidor de TELEGUEPI</span>
                 </div>
+
+                <hr>
+
+                <p class="small text-secondary mb-2">Base de datos</p>
+                <div class="system-item">
+                    <i class="bi bi-database-check text-success fs-4"></i>
+                    <strong>PostgreSQL</strong>
+                </div>
+
+                <hr>
+
+                <p class="small text-secondary mb-2">Plataforma</p>
+                <div class="system-item">
+                    <i class="bi bi-code-slash text-primary fs-4"></i>
+                    <strong>Django</strong>
+                </div>
+
             </div>
+        </div>
 
-        </section>
-
-    </main>
+    </section>
 
 </div>
 
@@ -220,8 +217,11 @@
 
 {% block extra_js %}
 
+<!-- Biblioteca para dibujar el gráfico -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-    // Recuperamos los meses enviados desde la vista de Django.
+    // Recuperamos los meses enviados desde Django.
     const nombresMeses = JSON.parse(
         document.getElementById('nombres-meses-data').textContent
     );
@@ -237,9 +237,7 @@
     // Verificamos que el elemento y Chart.js estén disponibles.
     if (elementoGrafico && typeof Chart !== 'undefined') {
 
-        // Creamos el gráfico con los datos reales de PostgreSQL.
         new Chart(elementoGrafico, {
-
             type: 'line',
 
             data: {
@@ -247,7 +245,6 @@
 
                 datasets: [{
                     label: 'Ingresos ($)',
-
                     data: ingresosMensuales,
 
                     borderColor: '#1769AA',
@@ -275,13 +272,9 @@
                         beginAtZero: true
                     }
                 }
-
             }
-
         });
     }
 </script>
 
 {% endblock %}
-
-

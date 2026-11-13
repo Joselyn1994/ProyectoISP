@@ -1,5 +1,7 @@
 # Importamos los modelos de Django.
 from django.db import models
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 
 
 class Gasto(models.Model):
@@ -39,6 +41,7 @@ class Gasto(models.Model):
     monto = models.DecimalField(
         max_digits=10,
         decimal_places=2,
+        validators=[MinValueValidator(Decimal('0.01'))],
         verbose_name='Monto'
     )
 

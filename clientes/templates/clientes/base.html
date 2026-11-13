@@ -39,7 +39,7 @@
 
             <div>
                 <h4>TELEGUEPI</h4>
-                <span>ISP MANAGEMENT</span>
+                <span>SERVICIO DE INTERNET</span>
             </div>
         </div>
 
@@ -91,19 +91,22 @@
 
             <p class="menu-heading">ADMINISTRACIÓN</p>
 
-            <!-- MÓDULO FINANZAS: PENDIENTE -->
-            <div class="menu-link disabled">
-                <i class="bi bi-graph-up"></i>
-                <span>Finanzas</span>
-                <small>Próximamente</small>
-            </div>
+        <!-- MÓDULO FINANZAS -->
+        <a href="{% url 'finanzas:panel_finanzas' %}"
+           class="menu-link {% if request.resolver_match.namespace == 'finanzas' %}active{% endif %}">
 
-            <!-- MÓDULO REPORTES: PENDIENTE -->
-            <div class="menu-link disabled">
-                <i class="bi bi-file-bar-graph"></i>
-                <span>Reportes</span>
-                <small>Próximamente</small>
-            </div>
+           <i class="bi bi-graph-up"></i>
+           <span>Finanzas</span>
+        </a>
+
+
+        <!-- MÓDULO REPORTES: PENDIENTE -->
+        <a href="{% url 'reportes:panel_reportes' %}"
+           class="menu-link {% if request.resolver_match.namespace == 'reportes' %}active{% endif %}">
+
+           <i class="bi bi-file-bar-graph"></i>
+           <span>Reportes</span>
+        </a>
 
         </nav>
 
