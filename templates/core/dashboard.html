@@ -1,279 +1,265 @@
 ﻿
 {% extends "clientes/base.html" %}
+{% load static %}
 
 {% block title %}Panel principal | TELEGUEPI ISP{% endblock %}
 
-{% block page_heading %}Panel de control{% endblock %}
+{% block page_heading %}Panel principal{% endblock %}
 
 {% block extra_css %}
-<style>
-    /* Estilos exclusivos del panel principal */
-    .dashboard-page {
-        width: 100%;
-    }
-
-    .dashboard-page .welcome-section {
-        margin-bottom: 25px;
-    }
-
-    .dashboard-page .welcome-section h1 {
-        color: #153B63;
-        font-size: 25px;
-        font-weight: 700;
-        margin-bottom: 6px;
-    }
-
-    .dashboard-page .welcome-section p {
-        color: #8291A3;
-        margin: 0;
-    }
-
-    .dashboard-page .stat-card {
-        background: #FFFFFF;
-        border: 1px solid #E5EBF2;
-        border-radius: 13px;
-        padding: 22px;
-        height: 100%;
-        box-shadow: 0 3px 12px rgba(20, 43, 73, 0.04);
-    }
-
-    .dashboard-page .stat-card h6 {
-        color: #8291A3;
-        font-size: 13px;
-        margin-bottom: 12px;
-    }
-
-    .dashboard-page .stat-card h3 {
-        color: #153B63;
-        font-size: 26px;
-        font-weight: 700;
-        margin: 0;
-    }
-
-    .dashboard-page .stat-icon {
-        width: 45px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #E7F5FA;
-        color: #2476B9;
-        border-radius: 11px;
-        font-size: 21px;
-        flex-shrink: 0;
-    }
-
-    .dashboard-page .chart-container {
-        position: relative;
-        height: 300px;
-        width: 100%;
-    }
-
-    .dashboard-page .system-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 18px;
-    }
-
-    @media (max-width: 576px) {
-        .dashboard-page .welcome-section h1 {
-            font-size: 21px;
-        }
-
-        .dashboard-page .stat-card {
-            padding: 17px;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'core/css/dashboard-cards.css' %}">
 {% endblock %}
-
 
 {% block content %}
 
-<div class="dashboard-page">
+<!-- BIENVENIDA -->
+<section class="page-heading">
+    <h1>¡Bienvenido a TELEGUEPI ISP!</h1>
+    <p>Gestiona tu proveedor de Internet desde un solo lugar.</p>
+</section>
 
-    <!-- BIENVENIDA -->
-    <section class="welcome-section">
-        <h1>¡Bienvenido a TELEGUEPI ISP!</h1>
-        <p>Gestiona tu proveedor de Internet desde un solo lugar.</p>
-    </section>
+<!-- TARJETAS DE ESTADÍSTICAS -->
+<section class="row g-4">
 
-    <!-- TARJETAS DE ESTADÍSTICAS -->
-    <section class="row g-4">
-
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6>Clientes registrados</h6>
-                    <div class="stat-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6>Clientes registrados</h6>
+                <div class="stat-icon">
+                    <i class="bi bi-people"></i>
                 </div>
-                <h3>{{ total_clientes }}</h3>
             </div>
+            <h3>{{ total_clientes }}</h3>
         </div>
+    </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6>Planes disponibles</h6>
-                    <div class="stat-icon">
-                        <i class="bi bi-router"></i>
-                    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6>Planes disponibles</h6>
+                <div class="stat-icon">
+                    <i class="bi bi-router"></i>
                 </div>
-                <h3>{{ planes_disponibles }}</h3>
             </div>
+            <h3>{{ planes_disponibles }}</h3>
         </div>
+    </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6>Pagos pendientes</h6>
-                    <div class="stat-icon">
-                        <i class="bi bi-clock-history"></i>
-                    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6>Pagos pendientes</h6>
+                <div class="stat-icon">
+                    <i class="bi bi-clock-history"></i>
                 </div>
-                <h3>{{ pagos_pendientes }}</h3>
             </div>
+            <h3>{{ pagos_pendientes }}</h3>
         </div>
+    </div>
 
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6>Ingresos del mes</h6>
-                    <div class="stat-icon">
-                        <i class="bi bi-cash-stack"></i>
-                    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6>Ingresos del mes</h6>
+                <div class="stat-icon">
+                    <i class="bi bi-cash-stack"></i>
                 </div>
-                <h3>${{ ingresos_mes|floatformat:2 }}</h3>
             </div>
+            <h3>${{ ingresos_mes|floatformat:2 }}</h3>
         </div>
+    </div>
 
-    </section>
+</section>
 
-    <!-- GRÁFICO Y ESTADO DEL SISTEMA -->
-    <section class="row g-4 mt-2">
+<!-- SECCIÓN DE GRÁFICOS -->
+<section class="row g-4 mt-2">
 
-        <div class="col-12 col-xl-8">
-            <div class="stat-card">
+    <!-- GRÁFICA DE INGRESOS -->
+    <div class="col-12 col-xl-8">
+        <div class="stat-card">
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <h5 class="fw-bold mb-1">Resumen de ingresos</h5>
-                        <small class="text-secondary">Comportamiento mensual</small>
-                    </div>
-
-                    <span class="badge text-bg-info">Anual</span>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="fw-bold mb-1">Resumen de ingresos</h5>
+                    <small class="text-secondary">Comportamiento mensual</small>
                 </div>
 
-                <!-- Datos enviados por Django -->
-                {{ nombres_meses|json_script:"nombres-meses-data" }}
-                {{ ingresos_mensuales|json_script:"ingresos-mensuales-data" }}
-
-                <div class="chart-container">
-                    <canvas id="graficoIngresos"></canvas>
-                </div>
-
+                <span class="badge text-bg-info">Anual</span>
             </div>
-        </div>
 
-        <div class="col-12 col-xl-4">
-            <div class="stat-card">
+            <!-- Datos enviados desde Django -->
+            {{ nombres_meses|json_script:"nombres-meses-data" }}
+            {{ ingresos_mensuales|json_script:"ingresos-mensuales-data" }}
+            {{ ingresos_por_referencia|json_script:"ingresos-referencia-data" }}
 
-                <h5 class="fw-bold mb-1">Estado del sistema</h5>
-                <p class="text-secondary small">Resumen de conexión</p>
-
-                <div class="system-item">
-                    <span class="badge rounded-pill text-bg-success">Activo</span>
-                    <span>Servidor de TELEGUEPI</span>
-                </div>
-
-                <hr>
-
-                <p class="small text-secondary mb-2">Base de datos</p>
-                <div class="system-item">
-                    <i class="bi bi-database-check text-success fs-4"></i>
-                    <strong>PostgreSQL</strong>
-                </div>
-
-                <hr>
-
-                <p class="small text-secondary mb-2">Plataforma</p>
-                <div class="system-item">
-                    <i class="bi bi-code-slash text-primary fs-4"></i>
-                    <strong>Django</strong>
-                </div>
-
+            <div style="height: 300px;">
+                <canvas id="graficoIngresos"></canvas>
             </div>
+
         </div>
+    </div>
 
-    </section>
+    <!-- ESTADO DEL SISTEMA -->
+    <div class="col-12 col-xl-4">
+        <div class="stat-card">
 
-</div>
+            <h5 class="fw-bold mb-1">Estado del sistema</h5>
+            <p class="text-secondary small">Resumen de conexión</p>
+
+            <div class="d-flex align-items-center gap-2 mt-4">
+                <span class="badge rounded-pill text-bg-success">Activo</span>
+                <span>Servidor de TELEGUEPI</span>
+            </div>
+
+            <hr>
+
+            <p class="small text-secondary mb-2">Base de datos</p>
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-database-check text-success fs-4"></i>
+                <strong>PostgreSQL</strong>
+            </div>
+
+            <hr>
+
+            <p class="small text-secondary mb-2">Plataforma</p>
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-code-slash text-primary fs-4"></i>
+                <strong>Django</strong>
+            </div>
+
+        </div>
+    </div>
+
+</section>
 
 {% endblock %}
 
 
 {% block extra_js %}
 
-<!-- Biblioteca para dibujar el gráfico -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    // Recuperamos los meses enviados desde Django.
-    const nombresMeses = JSON.parse(
-        document.getElementById('nombres-meses-data').textContent
-    );
-
-    // Recuperamos los ingresos reales de cada mes.
-    const ingresosMensuales = JSON.parse(
-        document.getElementById('ingresos-mensuales-data').textContent
-    );
-
-    // Buscamos el elemento donde aparecerá el gráfico.
+    // Recuperamos los datos enviados por Django.
+    const elementoMeses = document.getElementById('nombres-meses-data');
+    const elementoIngresos = document.getElementById('ingresos-mensuales-data');
+    const elementoReferencia = document.getElementById('ingresos-referencia-data');
     const elementoGrafico = document.getElementById('graficoIngresos');
 
-    // Verificamos que el elemento y Chart.js estén disponibles.
-    if (elementoGrafico && typeof Chart !== 'undefined') {
+    // Verificamos que existan los elementos y Chart.js.
+    if (
+        elementoMeses &&
+        elementoIngresos &&
+        elementoReferencia &&
+        elementoGrafico &&
+        typeof Chart !== 'undefined'
+    ) {
 
-        new Chart(elementoGrafico, {
-            type: 'line',
+        const nombresMeses = JSON.parse(elementoMeses.textContent);
+        const ingresosMensuales = JSON.parse(elementoIngresos.textContent);
+        const ingresosReferencia = JSON.parse(elementoReferencia.textContent);
 
-            data: {
-                labels: nombresMeses,
+        // Comprobamos que las series tengan la misma cantidad de meses.
+        if (
+            nombresMeses.length === ingresosMensuales.length &&
+            nombresMeses.length === ingresosReferencia.length
+        ) {
 
-                datasets: [{
-                    label: 'Ingresos ($)',
-                    data: ingresosMensuales,
+            new Chart(elementoGrafico, {
 
-                    borderColor: '#1769AA',
-                    backgroundColor: 'rgba(32, 184, 213, 0.15)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#20B8D5',
-                    pointRadius: 5
-                }]
-            },
+                type: 'line',
 
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                data: {
+                    labels: nombresMeses,
 
-                plugins: {
-                    legend: {
-                        display: true
-                    }
+                    datasets: [
+
+                        {
+                            label: 'Cobros recibidos ($)',
+                            data: ingresosMensuales,
+
+                            borderColor: '#1769AA',
+                            backgroundColor: 'rgba(23, 105, 170, 0.10)',
+
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.15,
+
+                            pointBackgroundColor: '#1769AA',
+                            pointBorderColor: '#FFFFFF',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 7
+                        },
+
+                        {
+                            label: 'Pagos por mes de referencia ($)',
+                            data: ingresosReferencia,
+
+                            borderColor: '#20B8D5',
+                            backgroundColor: 'rgba(32, 184, 213, 0.10)',
+
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.15,
+
+                            pointBackgroundColor: '#20B8D5',
+                            pointBorderColor: '#FFFFFF',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 7
+                        }
+
+                    ]
                 },
 
-                scales: {
-                    y: {
-                        beginAtZero: true
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' +
+                                        Number(context.parsed.y).toFixed(2);
+                                }
+                            }
+                        }
+                    },
+
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + Number(value).toFixed(2);
+                                }
+                            },
+
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.06)'
+                            }
+                        },
+
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 </script>
 

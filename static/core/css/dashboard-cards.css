@@ -1,0 +1,66 @@
+
+/* ==========================================
+   TELEGUEPI ISP - TARJETAS DEL DASHBOARD
+   ========================================== */
+
+:root {
+    --dashboard-azul-oscuro: #142B49;
+    --dashboard-azul-principal: #1769AA;
+    --dashboard-turquesa: #20B8D5;
+    --dashboard-blanco: #FFFFFF;
+    --dashboard-texto-suave: #8291A3;
+    --dashboard-borde: #E5EBF2;
+}
+
+/* Bienvenida */
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    color: var(--dashboard-azul-oscuro);
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.page-heading p {
+    color: var(--dashboard-texto-suave);
+    margin: 0;
+}
+
+/* Tarjetas estadísticas */
+.stat-card {
+    background: var(--dashboard-blanco);
+    border: 1px solid var(--dashboard-borde);
+    border-radius: 13px;
+    padding: 22px;
+    height: 100%;
+    box-shadow: 0 3px 12px rgba(20, 43, 73, 0.04);
+}
+
+.stat-card h6 {
+    color: var(--dashboard-texto-suave);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.stat-card h3 {
+    color: var(--dashboard-azul-oscuro);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Iconos de las tarjetas */
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E7F5FA;
+    color: var(--dashboard-azul-principal);
+    border-radius: 11px;
+    font-size: 21px;
+}

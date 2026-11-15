@@ -1,6 +1,6 @@
 ﻿
 /* ==========================================
-   TELEGUEPI ISP - DISE├æO PROFESIONAL
+   TELEGUEPI ISP - DISEÑO PROFESIONAL
    ========================================== */
 
 :root {
@@ -14,7 +14,7 @@
     --borde: #E5EBF2;
 }
 
-/* Configuraci├│n general */
+/* Configuración general */
 * {
     box-sizing: border-box;
 }
@@ -32,7 +32,7 @@ body {
     min-height: 100vh;
 }
 
-/* Men├║ lateral */
+/* Menú lateral */
 .sidebar {
     width: 260px;
     min-height: 100vh;
@@ -69,7 +69,7 @@ body {
     letter-spacing: 1px;
 }
 
-/* T├¡tulos del men├║ */
+/* Títulos del menú */
 .sidebar-label {
     color: #8EA6C0;
     font-size: 10px;
@@ -78,7 +78,7 @@ body {
     padding: 25px 12px 10px;
 }
 
-/* Enlaces del men├║ */
+/* Enlaces del menú */
 .sidebar-menu {
     list-style: none;
     padding: 0;
@@ -161,7 +161,7 @@ body {
     margin: 0;
 }
 
-/* Tarjetas estad├¡sticas */
+/* Tarjetas estadísticas */
 .stat-card {
     background: var(--blanco);
     border: 1px solid var(--borde);
@@ -196,7 +196,7 @@ body {
     font-size: 21px;
 }
 
-/* Adaptaci├│n a celulares */
+/* Adaptación a celulares */
 @media (max-width: 768px) {
     .dashboard-layout {
         flex-direction: column;

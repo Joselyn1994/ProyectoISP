@@ -18,6 +18,7 @@ from gastos.models import Gasto
 # PANEL PRINCIPAL
 # =====================================================
 
+
 def dashboard(request):
 
     hoy = timezone.localdate()
@@ -121,7 +122,7 @@ def dashboard(request):
     balance_mes = ingresos_mes - gastos_mes
 
     # -----------------------------------------
-    # DATOS PARA EL GRAFICO ANUAL
+    # GRAFICO ANUAL DE INGRESOS
     # -----------------------------------------
 
     nombres_meses = [
@@ -130,25 +131,62 @@ def dashboard(request):
         'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ]
 
-    ingresos_mensuales = []
+    # Inicializamos los doce meses.
+    ingresos_mensuales = [0.0] * 12
 
-    for numero_mes in range(1, 13):
-
-        total = Pago.objects.filter(
+    # Consultamos todos los pagos realizados
+    # durante el año actual y los agrupamos por mes.
+    pagos_por_mes = (
+        Pago.objects.filter(
             estado='pagado',
-            fecha_pago__year=hoy.year,
-            fecha_pago__month=numero_mes
-        ).aggregate(
-            total=Sum('valor')
-        )['total'] or 0
+            fecha_pago__isnull=False,
+            fecha_pago__year=hoy.year
+        )
+        .values('fecha_pago__month')
+        .annotate(total=Sum('valor'))
+        .order_by('fecha_pago__month')
+    )
 
-        ingresos_mensuales.append(float(total))
+    # Asignamos los ingresos a su mes correspondiente.
+    for pago in pagos_por_mes:
+
+        numero_mes = pago['fecha_pago__month']
+
+        ingresos_mensuales[numero_mes - 1] = float(
+            pago['total'] or 0
+        )
+
+    # -----------------------------------------
+    # INGRESOS POR MES DE REFERENCIA
+    # -----------------------------------------
+
+    ingresos_por_referencia = [0.0] * 12
+
+    pagos_por_referencia = (
+        Pago.objects.filter(
+            estado='pagado',
+            fecha_pago__isnull=False,
+            mes_referencia__year=hoy.year
+        )
+        .values('mes_referencia__month')
+        .annotate(total=Sum('valor'))
+        .order_by('mes_referencia__month')
+    )
+
+    for pago in pagos_por_referencia:
+
+        numero_mes = pago['mes_referencia__month']
+
+        ingresos_por_referencia[numero_mes - 1] = float(
+            pago['total'] or 0
+        )
 
     # -----------------------------------------
     # INFORMACION PARA EL DASHBOARD
     # -----------------------------------------
 
     contexto = {
+
         # Clientes
         'total_clientes': total_clientes,
         'clientes_activos': clientes_activos,
@@ -180,6 +218,7 @@ def dashboard(request):
         # Grafico
         'nombres_meses': nombres_meses,
         'ingresos_mensuales': ingresos_mensuales,
+        'ingresos_por_referencia': ingresos_por_referencia,
         'anio_actual': hoy.year,
     }
 
