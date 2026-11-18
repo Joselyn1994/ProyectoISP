@@ -120,6 +120,10 @@ class ClienteForm(forms.ModelForm):
         # Ejecutamos la configuración original de ModelForm.
         super().__init__(*args, **kwargs)
 
+        # Personalizamos los mensajes de los campos obligatorios.
+        for campo in self.fields.values():
+            campo.error_messages['required'] = 'Este campo es obligatorio.'
+
         # Mostramos solamente las 24 provincias oficiales.
         self.fields['provincia_geo'].queryset = (
             Provincia.objects.exclude(codigo='90').order_by('nombre')

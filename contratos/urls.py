@@ -48,6 +48,13 @@ urlpatterns = [
         name='buscar_cliente'
     ),
 
+        # Consultar la velocidad y el precio de un plan.
+    path(
+        'obtener-datos-plan/',
+        views.obtener_datos_plan,
+        name='obtener_datos_plan'
+    ),
+
     # Generar y descargar el contrato en PDF.
     path(
         'pdf/<int:contrato_id>/',

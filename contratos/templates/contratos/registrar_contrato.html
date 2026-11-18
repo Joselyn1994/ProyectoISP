@@ -97,19 +97,59 @@
                     </div>
 
                     <!-- PLAN DE INTERNET -->
-                    <div class="mb-3">
+<div class="mb-3">
 
-                        <label class="form-label fw-semibold">
-                            Plan de Internet
-                        </label>
+    <label class="form-label fw-semibold">
+        Plan de Internet
+    </label>
 
-                        {{ formulario.plan }}
+    {{ formulario.plan }}
 
-                        {% for error in formulario.plan.errors %}
-                            <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
+    {% for error in formulario.plan.errors %}
+        <div class="text-danger small">{{ error }}</div>
+    {% endfor %}
 
-                    </div>
+</div>
+
+<!-- INFORMACIÓN AUTOMÁTICA DEL PLAN -->
+<div id="informacionPlan" class="card border-0 mb-3"
+     style="background-color: #F3F6FA; display: none;">
+
+    <div class="card-body py-3">
+
+        <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-wifi text-primary fs-4 me-2"></i>
+            <span class="fw-bold text-dark">
+                Características del plan seleccionado
+            </span>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-2">
+                <small class="text-muted d-block">
+                    Velocidad de Internet
+                </small>
+                <span id="velocidadPlan"
+                      class="fw-bold text-primary">
+                    --
+                </span>
+            </div>
+
+            <div class="col-md-6 mb-2">
+                <small class="text-muted d-block">
+                    Precio mensual
+                </small>
+                <span id="precioPlan"
+                      class="fw-bold text-primary">
+                    --
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
                     <!-- FECHAS -->
                     <div class="row">

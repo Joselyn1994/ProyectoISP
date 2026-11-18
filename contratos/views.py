@@ -21,6 +21,9 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 # Importamos el modelo Cliente.
 from clientes.models import Cliente
 
+# Importamos el modelo de los planes de Internet.
+from planes.models import PlanInternet
+
 
 # --------------------------------------------------
 # LISTAR CONTRATOS
@@ -381,3 +384,32 @@ def generar_pdf_contrato(request, contrato_id):
 
     # Entregamos el archivo al navegador.
     return respuesta
+
+# --------------------------------------------------
+# OBTENER LOS DATOS DEL PLAN SELECCIONADO
+# --------------------------------------------------
+
+def obtener_datos_plan(request):
+
+    # Obtenemos el identificador del plan enviado por el navegador.
+    plan_id = request.GET.get('plan_id')
+
+    # Buscamos el plan solamente si está activo.
+    plan = PlanInternet.objects.filter(
+        id=plan_id,
+        estado='activo'
+    ).first()
+
+    # Si el plan no existe o está inactivo, informamos que no se encontró.
+    if not plan:
+        return JsonResponse({
+            'encontrado': False
+        })
+
+    # Devolvemos los datos del plan en formato JSON.
+    return JsonResponse({
+        'encontrado': True,
+        'nombre': plan.nombre,
+        'velocidad': plan.velocidad,
+        'precio_mensual': str(plan.precio_mensual)
+    })

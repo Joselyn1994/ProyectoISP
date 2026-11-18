@@ -138,7 +138,7 @@
 {% block extra_js %}
 
 <script>
-    // Recuperamos los datos enviados por Django.
+    // Recuperamos los datos enviados desde Django.
     const elementoMeses = document.getElementById('nombres-meses-data');
     const elementoIngresos = document.getElementById('ingresos-mensuales-data');
     const elementoReferencia = document.getElementById('ingresos-referencia-data');
@@ -157,7 +157,7 @@
         const ingresosMensuales = JSON.parse(elementoIngresos.textContent);
         const ingresosReferencia = JSON.parse(elementoReferencia.textContent);
 
-        // Comprobamos que las series tengan la misma cantidad de meses.
+        // Comprobamos que ambas series tengan los mismos meses.
         if (
             nombresMeses.length === ingresosMensuales.length &&
             nombresMeses.length === ingresosReferencia.length
@@ -165,7 +165,8 @@
 
             new Chart(elementoGrafico, {
 
-                type: 'line',
+                // Tipo de gráfica: barras verticales.
+                type: 'bar',
 
                 data: {
                     labels: nombresMeses,
@@ -176,36 +177,26 @@
                             label: 'Cobros recibidos ($)',
                             data: ingresosMensuales,
 
-                            borderColor: '#1769AA',
-                            backgroundColor: 'rgba(23, 105, 170, 0.10)',
+                            // Azul oscuro institucional.
+                            backgroundColor: '#153B63',
+                            borderColor: '#153B63',
 
-                            borderWidth: 3,
-                            fill: false,
-                            tension: 0.15,
-
-                            pointBackgroundColor: '#1769AA',
-                            pointBorderColor: '#FFFFFF',
-                            pointBorderWidth: 2,
-                            pointRadius: 4,
-                            pointHoverRadius: 7
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            maxBarThickness: 38
                         },
 
                         {
                             label: 'Pagos por mes de referencia ($)',
                             data: ingresosReferencia,
 
-                            borderColor: '#20B8D5',
-                            backgroundColor: 'rgba(32, 184, 213, 0.10)',
+                            // Celeste institucional.
+                            backgroundColor: '#53B8E8',
+                            borderColor: '#53B8E8',
 
-                            borderWidth: 3,
-                            fill: false,
-                            tension: 0.15,
-
-                            pointBackgroundColor: '#20B8D5',
-                            pointBorderColor: '#FFFFFF',
-                            pointBorderWidth: 2,
-                            pointRadius: 4,
-                            pointHoverRadius: 7
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            maxBarThickness: 38
                         }
 
                     ]
@@ -215,6 +206,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
 
+                    // Permite comparar ambas barras de cada mes.
                     interaction: {
                         intersect: false,
                         mode: 'index'

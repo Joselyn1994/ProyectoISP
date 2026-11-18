@@ -81,13 +81,24 @@
                 <span>Contratos</span>
             </a>
 
-            <!-- MÓDULO PAGOS -->
+            <!-- MÓDULO PAGOS: INGRESOS -->
             <a href="{% url 'pagos:listar_pagos' %}"
                class="menu-link {% if request.resolver_match.namespace == 'pagos' %}active{% endif %}">
 
                 <i class="bi bi-wallet2"></i>
-                <span>Pagos</span>
+                <span>Pagos (Ingresos)</span>
             </a>
+
+            <!-- MÓDULO GASTOS: EGRESOS -->
+            <a href="{% url 'gastos:listar_gastos' %}"
+               class="menu-link {% if request.resolver_match.namespace == 'gastos' %}active{% endif %}">
+
+                <i class="bi bi-cash-stack"></i>
+                <span>Gastos (Egresos)</span>
+            </a>
+
+            <p class="menu-heading">ADMINISTRACIÓN</p>
+
 
             <p class="menu-heading">ADMINISTRACIÓN</p>
 

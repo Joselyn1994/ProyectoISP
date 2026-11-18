@@ -1,28 +1,33 @@
 
-
 # Importamos los formularios de Django.
 from django import forms
 
 # Importamos los modelos necesarios.
 from .models import Contrato
 from clientes.models import Cliente
+from planes.models import PlanInternet
 
 
 # Personalizamos cómo aparecen los clientes en la lista.
 class ClienteChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, cliente):
-
-        # Mostramos cédula y nombres completos.
         return (
             f'{cliente.cedula} - '
             f'{cliente.nombres} {cliente.apellidos}'
         )
 
 
+# Personalizamos cómo aparecen los planes en la lista.
+class PlanChoiceField(forms.ModelChoiceField):
+
+    def label_from_instance(self, plan):
+        return f'{plan.nombre} - {plan.velocidad} Mbps'
+
+
 class ContratoForm(forms.ModelForm):
 
-    # Utilizamos nuestra lista personalizada de clientes.
+    # Lista personalizada de clientes.
     cliente = ClienteChoiceField(
         queryset=Cliente.objects.all(),
         widget=forms.Select(attrs={
@@ -31,12 +36,22 @@ class ContratoForm(forms.ModelForm):
         label='Seleccionar cliente'
     )
 
+    # Lista de planes activos.
+    plan = PlanChoiceField(
+        queryset=PlanInternet.objects.filter(
+            estado='activo'
+        ).order_by('precio_mensual'),
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id': 'id_plan',
+        }),
+        label='Seleccionar plan de Internet'
+    )
+
     class Meta:
 
-        # Modelo que utilizará el formulario.
         model = Contrato
 
-        # Campos del contrato.
         fields = [
             'codigo',
             'cliente',
@@ -47,7 +62,6 @@ class ContratoForm(forms.ModelForm):
             'observaciones',
         ]
 
-        # Etiquetas de los campos.
         labels = {
             'codigo': 'Código del contrato',
             'plan': 'Seleccionar plan de Internet',
@@ -57,16 +71,10 @@ class ContratoForm(forms.ModelForm):
             'observaciones': 'Observaciones',
         }
 
-        # Diseño visual de los campos.
         widgets = {
-
             'codigo': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Ej. CONT-001',
-            }),
-
-            'plan': forms.Select(attrs={
-                'class': 'form-select',
             }),
 
             'fecha_inicio': forms.DateInput(attrs={
@@ -89,4 +97,3 @@ class ContratoForm(forms.ModelForm):
                 'placeholder': 'Observaciones del contrato...',
             }),
         }
-
